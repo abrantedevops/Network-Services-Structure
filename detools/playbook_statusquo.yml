@@ -1,0 +1,18 @@
+#Parte 2 - Ansible-Statusquo
+
+- hosts: all
+  become: yes
+  tasks:
+    - name: Alterando o nome do Linux
+      hostname:
+        name: server-statusquo
+
+    - name: Instalando os Pacotes
+      apt:
+        update_cache: yes
+        name:
+          - apache2
+          - openssh-server
+        state: present
+
+  
