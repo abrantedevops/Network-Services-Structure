@@ -24,9 +24,7 @@
       copy:
         src: ../network/client/interfaces
         dest: /etc/network/interfaces
-      # notify: Restart network
-      # tags:
-      #   - network
+      
 
     - name: Restart networking.service
       command: "sudo systemctl restart networking.service"
@@ -88,13 +86,7 @@
 
 
 
-  # handlers:
-  #   - name: Restart network
-  #     service:
-  #       name: networking
-  #       state: restarted
-  #     tags:
-  #       - network
+ 
 
    
 
