@@ -1,0 +1,33 @@
+# This file describes the network interfaces available on your system
+# and how to activate them. For more information, see interfaces(5).
+
+source /etc/network/interfaces.d/*
+
+# The loopback network interface
+auto lo
+iface lo inet loopback
+
+# The primary network interface ipv4 (WAN)
+allow-hotplug eth1
+auto eth1
+
+#WAN inteface app01 from dns bind
+iface eth1 inet static
+address 200.200.200.42/29
+
+#WAN intefce app02 from dns bind
+iface eth1 inet static
+address 200.200.200.43/27
+
+
+# The secondary network interface ipv4 (LAN)
+
+# Lan interface app01 from dns bind
+allow-hotplug eth2
+auto eth2
+iface eth2 inet static
+address 10.0.129.254/23
+
+# Lan interface app02 from dns bind
+iface eth2 inet static
+address 10.0.129.253/23

@@ -11,14 +11,32 @@
       apt:
         update_cache: yes
         name:
-          - apache2
-          - openssh-server
+          # - apache2
+          # - openssh-server
         state: present
 
 
- # dns Requirement
+ # Network Requirement
+    - name: Copy network interfaces file
+      copy:
+        src: ../network/statusquo/interfaces
+        dest: /etc/network/interfaces
+      notify: Restart network
+      tags:
+        - network
+
+ # DNS Requirement
     - name: Copy dns interfaces file
       copy:
         src: ../network/dns/resolv.conf
         dest: /etc/resolv.conf
   
+
+
+  handlers:
+    - name: Restart network
+      service:
+        name: networking
+        state: restarted
+      tags:
+        - network

@@ -1,0 +1,29 @@
+FROM debian:latest
+
+# Install nginx openssl and ssl-cert
+RUN apt-get update && apt-get install -y nginx openssl ssl-cert
+
+# Copy the configuration nginx files
+COPY default /etc/nginx/sites-available/
+
+# Define the correct permissions nginx
+RUN chown root:root /etc/nginx/sites-available/default
+
+# Create the directory for certificate https in default path nginx
+RUN mkdir -p /etc/nginx/certificado
+
+# Create the certificate https
+RUN openssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout /etc/nginx/certificado/abranteme.key -out /etc/nginx/certificado/abranteme.crt -subj "/C=BR/ST=PB/L=PB/O=Global Security/OU=IT Department/CN=abranteme.com.br"
+
+# resolv.conf da imagem ser o configurado??
+
+# Expose the necessary ports
+EXPOSE 80
+
+# Start service
+CMD ["nginx", "-g", "daemon off;"]
+
+
+
+
+

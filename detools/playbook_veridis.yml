@@ -11,152 +11,152 @@
       apt:
         update_cache: yes
         name:
-          - mdadm
-          - mdm
-          - lvm2
-          - openssh-server
+          # - mdadm
+          # - mdm
+          # - lvm2
+          # - openssh-server
           - sudo
           - acl
           - python3-pip
-          - bind9
-          - nginx
-          - openssh-sftp-server
-          - openssl
-          - ssl-cert
-          - python3-pexpect
-          - expect
-          - parted
+          # - bind9
+          # - nginx
+          # - openssh-sftp-server
+          # - openssl
+          # - ssl-cert
+          # - parted
+          # - python3-pexpect
+          # - expect
         state: present
 
-    - name: Partition disks
-      become: true
-      command:
-        cmd: sudo parted -s {{ item }} mklabel msdos mkpart primary ext4 0% 50% mkpart primary ext4 50% 100%
-        warn: false
-      with_items:
-        - /dev/sdb
-        - /dev/sdc
-        - /dev/sdd
+    # - name: Partition disks
+    #   become: true
+    #   command:
+    #     cmd: sudo parted -s {{ item }} mklabel msdos mkpart primary ext4 0% 50% mkpart primary ext4 50% 100%
+    #     warn: false
+    #   with_items:
+    #     - /dev/sdb
+    #     - /dev/sdc
+    #     - /dev/sdd
 
-    - name: Create RAID arrays
-      command: "sudo mdadm --create /dev/md0 --level=1 --raid-devices=3 /dev/sdb1 /dev/sdc1 /dev/sdd1 --metadata=0.90"
+    # - name: Create RAID arrays
+    #   command: "sudo mdadm --create /dev/md0 --level=1 --raid-devices=3 /dev/sdb1 /dev/sdc1 /dev/sdd1 --metadata=0.90"
 
-      # Optionally, you can wait for the RAID array to be fully synced before proceeding to the next step
-      async: 0
-      poll: 0
+    #   # Optionally, you can wait for the RAID array to be fully synced before proceeding to the next step
+    #   async: 0
+    #   poll: 0
 
-    - name: Create second RAID array
-      command: "sudo mdadm --create /dev/md1 --level=1 --raid-devices=3 /dev/sdb2 /dev/sdc2 /dev/sdd2 --metadata=0.90"
+    # - name: Create second RAID array
+    #   command: "sudo mdadm --create /dev/md1 --level=1 --raid-devices=3 /dev/sdb2 /dev/sdc2 /dev/sdd2 --metadata=0.90"
 
-      # Optionally, you can wait for the RAID array to be fully synced before proceeding to the next step
-      async: 0
-      poll: 0
+    #   # Optionally, you can wait for the RAID array to be fully synced before proceeding to the next step
+    #   async: 0
+    #   poll: 0
 
-      # You can add more tasks here for filesystem creation, mounting, etc.
-    - name: Create directory /dados/www
-      command: "sudo mkdir -p /dados/www"
+    #   # You can add more tasks here for filesystem creation, mounting, etc.
+    # - name: Create directory /dados/www
+    #   command: "sudo mkdir -p /dados/www"
 
-    - name: Create directory /dados/jornal
-      command: "sudo mkdir -p /dados/jornal"
+    # - name: Create directory /dados/jornal
+    #   command: "sudo mkdir -p /dados/jornal"
 
-    - name: Format the array /dev/md0 with ext4 filesystem
-      command: "sudo mkfs.ext4 /dev/md0"
+    # - name: Format the array /dev/md0 with ext4 filesystem
+    #   command: "sudo mkfs.ext4 /dev/md0"
 
-    - name: Format the array /dev/md1 with ext4 filesystem
-      command: "sudo mkfs.ext4 /dev/md1"
+    # - name: Format the array /dev/md1 with ext4 filesystem
+    #   command: "sudo mkfs.ext4 /dev/md1"
 
-    - name: Create volume group vg-dados with RAID-1
-      expect:
-        command: "sudo vgcreate vg-dados /dev/md0 /dev/md1"
-        responses:
-          "WARNING: ext4 signature detected*": "y"
+    # - name: Create volume group vg-dados with RAID-1
+    #   expect:
+    #     command: "sudo vgcreate vg-dados /dev/md0 /dev/md1"
+    #     responses:
+    #       "WARNING: ext4 signature detected*": "y"
 
-    - name: Create logical volumes www with 2G
-      command: "sudo lvcreate -L 2G -n www vg-dados"
+    # - name: Create logical volumes www with 2G
+    #   command: "sudo lvcreate -L 2G -n www vg-dados"
 
-    - name: Create logical volumes jornal with 3G
-      command: "sudo lvcreate -L 3G -n jornal vg-dados"
+    # - name: Create logical volumes jornal with 3G
+    #   command: "sudo lvcreate -L 3G -n jornal vg-dados"
 
-    - name: Format logical volumes /dev/vg-dados/www with ext4 filesystem
-      command: "sudo mkfs.ext4 /dev/vg-dados/www"
+    # - name: Format logical volumes /dev/vg-dados/www with ext4 filesystem
+    #   command: "sudo mkfs.ext4 /dev/vg-dados/www"
 
-    - name: Format logical volumes /dev/vg-dados/jornal with ext4 filesystem
-      command: "sudo mkfs.ext4 /dev/vg-dados/jornal"
+    # - name: Format logical volumes /dev/vg-dados/jornal with ext4 filesystem
+    #   command: "sudo mkfs.ext4 /dev/vg-dados/jornal"
 
-    - name: Update /etc/fstab for /dados/www and /dados/jornal
-      blockinfile:
-        path: /etc/fstab
-        block: |
-          /dev/vg-dados/www  /dados/www  ext4  defaults  0  0
-          /dev/vg-dados/jornal  /dados/jornal  ext4  defaults  0  0
-      become: true
+    # - name: Update /etc/fstab for /dados/www and /dados/jornal
+    #   blockinfile:
+    #     path: /etc/fstab
+    #     block: |
+    #       /dev/vg-dados/www  /dados/www  ext4  defaults  0  0
+    #       /dev/vg-dados/jornal  /dados/jornal  ext4  defaults  0  0
+    #   become: true
 
-    - name: Mount filesystems
-      command: "mount -a"
-      become: true
+    # - name: Mount filesystems
+    #   command: "mount -a"
+    #   become: true
 
 
-      # System access security
+    #   # System access security
 
-    - name: Create users
-      become: yes
-      user:
-        name: "{{ item }}"
-        shell: /bin/bash
-        createhome: yes
-        home: "/home/{{ item }}"
-        state: present
-        password: "{{ '1234' | password_hash('sha512') }}"
-      with_items:
-        - suporte
-        - jornalista
+    # - name: Create users
+    #   become: yes
+    #   user:
+    #     name: "{{ item }}"
+    #     shell: /bin/bash
+    #     createhome: yes
+    #     home: "/home/{{ item }}"
+    #     state: present
+    #     password: "{{ '1234' | password_hash('sha512') }}"
+    #   with_items:
+    #     - suporte
+    #     - jornalista
 
-    - name: Add user suporte to sudo group
-      become: true
-      become_user: root
-      user:
-        name: suporte
-        groups: sudo
-        append: yes
+    # - name: Add user suporte to sudo group
+    #   become: true
+    #   become_user: root
+    #   user:
+    #     name: suporte
+    #     groups: sudo
+    #     append: yes
 
     
-    - name: Copy access.conf file
-      become: true
-      copy:
-        src: ../sec_access/veridis/access.conf
-        dest: /etc/security/access.conf
-        owner: root
-        group: root
-        mode: '0644'
+    # - name: Copy access.conf file
+    #   become: true
+    #   copy:
+    #     src: ../sec_access/veridis/access.conf
+    #     dest: /etc/security/access.conf
+    #     owner: root
+    #     group: root
+    #     mode: '0644'
 
 
-    - name: Copy profile file
-      become: true
-      copy:
-        src: ../sec_access/veridis/profile
-        dest: /etc/profile
-        owner: root
-        group: root
-        mode: '0644'
+    # - name: Copy profile file
+    #   become: true
+    #   copy:
+    #     src: ../sec_access/veridis/profile
+    #     dest: /etc/profile
+    #     owner: root
+    #     group: root
+    #     mode: '0644'
 
 
-    # task for permit to copy sshd_config from client to server:
-    - name: Set PasswordAuthentication in sshd_config (will change after in playbook_client)
-      lineinfile:
-        path: /etc/ssh/sshd_config
-        regexp: '^PasswordAuthentication'
-        line: 'PasswordAuthentication yes'
-      become: true
-      notify: Restart ssh
+    # # task for permit to copy sshd_config from client to server:
+    # - name: Set PasswordAuthentication in sshd_config (will change after in playbook_client)
+    #   lineinfile:
+    #     path: /etc/ssh/sshd_config
+    #     regexp: '^PasswordAuthentication'
+    #     line: 'PasswordAuthentication yes'
+    #   become: true
+    #   notify: Restart ssh
 
-      # task for permit to copy sshd_config from client to server:
-    - name: Set Permitroot in sshd_config (will change after in playbook_client)
-      lineinfile:
-        path: /etc/ssh/sshd_config
-        regexp: '^PermitRootLogin'
-        line: 'PermitRootLogin yes'
-      become: true
-      notify: Restart ssh
+    #   # task for permit to copy sshd_config from client to server:
+    # - name: Set Permitroot in sshd_config (will change after in playbook_client)
+    #   lineinfile:
+    #     path: /etc/ssh/sshd_config
+    #     regexp: '^PermitRootLogin'
+    #     line: 'PermitRootLogin yes'
+    #   become: true
+    #   notify: Restart ssh
 
     
 
@@ -169,7 +169,7 @@
       tags:
         - network
 
-      # dns Requirement
+      # DNS Requirement
     - name: Copy dns interfaces file
       copy:
         src: ../network/dns/resolv.conf
@@ -177,32 +177,38 @@
 
 
       #Dockerfile services init
-    - name: Instalando o Docker e o Docker Compose
-      apt:
-        update_cache: yes
-        name:
-          - docker.io
-          - docker-compose
-        state: present
+    # - name: Instalando o Docker e o Docker Compose
+    #   apt:
+    #     update_cache: yes
+    #     name:
+    #       - docker.io
+    #       - docker-compose
+    #     state: present
 
-    - name: Copiando o arquivo docker-compose.yml para a VM1
-      copy:
-        src: docker-compose.yml
-        dest: /home/vagrant/
+
+    # - name: Copiando pasta testeimginvm
+    #   synchronize:
+    #     src: "../isolated_environment/testeimginvm/"
+    #     dest: "/home/vagrant/"
+
+    # - name: Copiando o arquivo docker-compose.yml para a VM1
+    #   copy:
+    #     src: docker-compose.yml
+    #     dest: /home/vagrant/
    
-    - name: Executando o docker-compose
-      community.docker.docker_compose:
-        project_src: /home/vagrant
-        files:
-          - docker-compose.yml
+    # - name: Executando o docker-compose
+    #   community.docker.docker_compose:
+    #     project_src: /home/vagrant
+    #     files:
+    #       - docker-compose.yml
 
 
 
   handlers:
-    - name: Restart ssh
-      service:
-        name: ssh
-        state: restarted
+    # - name: Restart ssh
+    #   service:
+    #     name: ssh
+    #     state: restarted
     - name: Restart network
       service:
         name: networking
