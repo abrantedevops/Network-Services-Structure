@@ -49,23 +49,24 @@ Vagrant.configure("2") do |config|
   #   end
   # end
 
-  # Configuração da VM3 (Client)
-  config.vm.define "client" do |client|
-    client.vm.box = "debian/buster64"
-    client.vm.network "private_network", virtualbox__intnet: "intnet1", auto_config: false #interface for lan
-    client.vm.network "private_network", virtualbox__intnet: "intnet2", auto_config: false #interface for wan
-    client.vm.hostname = "Client-Host"
-    client.vm.provider "virtualbox" do |vb|
-      vb.memory = "1024"
-      vb.name = "Client-Host"
-      vb.gui = false
-    end
 
-    # Configuração de provisionamento com Ansible
-    client.vm.provision "ansible" do |ansible|
-      ansible.playbook = "playbook_client.yml"
-    end
-  end
+  # # Configuração da VM3 (Client)
+  # config.vm.define "client" do |client|
+  #   client.vm.box = "debian/buster64"
+  #   client.vm.network "private_network", virtualbox__intnet: "intnet1", auto_config: false #interface for lan
+  #   client.vm.network "private_network", virtualbox__intnet: "intnet2", auto_config: false #interface for wan
+  #   client.vm.hostname = "Client-Host"
+  #   client.vm.provider "virtualbox" do |vb|
+  #     vb.memory = "1024"
+  #     vb.name = "Client-Host"
+  #     vb.gui = false
+  #   end
+
+  #   # Configuração de provisionamento com Ansible
+  #   client.vm.provision "ansible" do |ansible|
+  #     ansible.playbook = "playbook_client.yml"
+  #   end
+  # end
 
 end
 

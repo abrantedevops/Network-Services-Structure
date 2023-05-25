@@ -15,4 +15,10 @@
           - openssh-server
         state: present
 
+
+ # dns Requirement
+    - name: Copy dns interfaces file
+      copy:
+        src: ../network/dns/resolv.conf
+        dest: /etc/resolv.conf
   

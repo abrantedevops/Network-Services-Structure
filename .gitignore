@@ -1,0 +1,5 @@
+node_modules/
+.vagrant
+imagem_nginx/
+steps/
+imagem_for_dockerhub/

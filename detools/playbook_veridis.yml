@@ -169,6 +169,35 @@
       tags:
         - network
 
+      # dns Requirement
+    - name: Copy dns interfaces file
+      copy:
+        src: ../network/dns/resolv.conf
+        dest: /etc/resolv.conf
+
+
+      #Dockerfile services init
+    - name: Instalando o Docker e o Docker Compose
+      apt:
+        update_cache: yes
+        name:
+          - docker.io
+          - docker-compose
+        state: present
+
+    - name: Copiando o arquivo docker-compose.yml para a VM1
+      copy:
+        src: docker-compose.yml
+        dest: /home/vagrant/
+   
+    - name: Executando o docker-compose
+      community.docker.docker_compose:
+        project_src: /home/vagrant
+        files:
+          - docker-compose.yml
+
+
+
   handlers:
     - name: Restart ssh
       service:
