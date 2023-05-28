@@ -15,9 +15,11 @@
           # - mdm
           # - lvm2
           # - openssh-server
+          - docker.io
+          - docker-compose
           - sudo
-          - acl
-          - python3-pip
+          # - acl
+          # - python3-pip
           # - bind9
           # - nginx
           # - openssh-sftp-server
@@ -176,7 +178,7 @@
         dest: /etc/resolv.conf
 
 
-      #Dockerfile services init
+      #Dockerfile services init (aqui pode da error no vagrantfile se antes foi copiado as interfaces de rede do projeto, pois ele fica sem internet!)
     # - name: Instalando o Docker e o Docker Compose
     #   apt:
     #     update_cache: yes
@@ -186,10 +188,10 @@
     #     state: present
 
 
-    # - name: Copiando pasta testeimginvm
-    #   synchronize:
-    #     src: "../isolated_environment/testeimginvm/"
-    #     dest: "/home/vagrant/"
+    - name: opt01-sv
+      synchronize:
+        src: "../isolated_environment/imagem_for_dockerhub_veridis/"
+        dest: "/home/vagrant/"
 
     # - name: Copiando o arquivo docker-compose.yml para a VM1
     #   copy:

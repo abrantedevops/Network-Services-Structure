@@ -1,12 +1,13 @@
 FROM debian:latest
 
 # Install BIND9 and supervisor 
-RUN apt-get update && apt-get install -y bind9 
+RUN apt-get update && apt-get install -y bind9 iputils-ping dnsutils 
 
 # Copy the configuration bind9 files
 COPY named.conf.local /etc/bind/
 COPY named.conf /etc/bind/
-COPY db.* /etc/bind/
+COPY db.abranteme.com.br-lan /etc/bind/
+#COPY db.* /etc/bind/
 
 # Define the correct permissions
 RUN chown root:bind /etc/bind/named.conf.local
@@ -20,9 +21,5 @@ EXPOSE 53
 
 # Start service
 CMD ["/usr/sbin/named", "-g", "-c", "/etc/bind/named.conf", "-u", "bind"]
-
-
-
-
 
 

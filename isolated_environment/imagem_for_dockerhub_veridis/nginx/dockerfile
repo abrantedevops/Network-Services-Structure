@@ -1,7 +1,7 @@
 FROM debian:latest
 
 # Install nginx openssl and ssl-cert
-RUN apt-get update && apt-get install -y nginx openssl ssl-cert
+RUN apt-get update && apt-get install -y nginx openssl ssl-cert iputils-ping dnsutils 
 
 # Copy the configuration nginx files
 COPY default /etc/nginx/sites-available/
@@ -22,8 +22,4 @@ EXPOSE 80
 
 # Start service
 CMD ["nginx", "-g", "daemon off;"]
-
-
-
-
 

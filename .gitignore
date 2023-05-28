@@ -1,6 +1,14 @@
+# Dependency directories
 node_modules/
-.vagrant
-imagem_nginx/
-steps/
-imagem_for_dockerhub/
-steps/
+isolated_environment/
+jspm_packages/
+.vagrant/*
+
+
+# IDE - VSCode
+.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+

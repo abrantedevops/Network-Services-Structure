@@ -7,14 +7,14 @@
       hostname:
         name: server-statusquo
 
-    - name: Instalando os Pacotes
+  #Dockerfile services init
+    - name: Instalando o Docker e o Docker Compose
       apt:
         update_cache: yes
         name:
-          # - apache2
-          # - openssh-server
+          - docker.io
+          - docker-compose
         state: present
-
 
  # Network Requirement
     - name: Copy network interfaces file
@@ -31,6 +31,12 @@
         src: ../network/dns/resolv.conf
         dest: /etc/resolv.conf
   
+
+  
+    - name: opt01-ss
+      synchronize:
+        src: "../isolated_environment/imagem_for_dockerhub_statusquo/"
+        dest: "/home/vagrant/"
 
 
   handlers:
