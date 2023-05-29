@@ -8,29 +8,29 @@ auto lo
 iface lo inet loopback
 
 # The primary network interface ipv4 (WAN)
-#allow-hotplug eth1
-#auto eth1
+allow-hotplug eth1
+auto eth1
 
 #Master Server DNS
-#iface eth1 inet static
-#address 200.200.200.41/29
+iface eth1 inet static
+address 200.200.200.41/29
 
 #Slave server DNS
-#iface eth1 inet static
-#address 200.200.200.33/27
+iface eth1 inet static
+address 200.200.200.33/27
 
 #nginx interface
-#iface eth1 inet static
-#address 200.200.200.44/29
+iface eth1 inet static
+address 200.200.200.44/29
 
 
 # The secondary network interface ipv4 (LAN)
 # Bind inteface
-allow-hotplug eth1
-auto eth1
-iface eth1 inet static
+allow-hotplug eth2
+auto eth2
+iface eth2 inet static
 address 10.0.128.1/23
 
 # Nginx interface
-iface eth1 inet static
+iface eth2 inet static
 address 10.0.128.2/23

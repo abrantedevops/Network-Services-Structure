@@ -2,7 +2,7 @@
 node_modules/
 isolated_environment/
 jspm_packages/
-.vagrant/*
+.vagrant/
 
 
 # IDE - VSCode

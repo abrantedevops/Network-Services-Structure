@@ -26,10 +26,10 @@
         - network
 
  # DNS Requirement
-    - name: Copy dns interfaces file
-      copy:
-        src: ../network/dns/resolv.conf
-        dest: /etc/resolv.conf
+    # - name: Copy dns interfaces file
+    #   copy:
+    #     src: ../network/dns/resolv.conf
+    #     dest: /etc/resolv.conf
   
 
   
