@@ -24,12 +24,6 @@
       copy:
         src: ../network/client/interfaces
         dest: /etc/network/interfaces
-
-      # dns Requirement
-    - name: Copy dns interfaces file
-      copy:
-        src: ../network/dns/resolv.conf
-        dest: /etc/resolv.conf
       
 
     - name: Restart networking.service

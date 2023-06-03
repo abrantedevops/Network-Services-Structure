@@ -1,0 +1,10 @@
+#Parte 3 - Docker Compose
+
+version: '3'
+
+services:
+  statusquo-apache:
+    image: abrantedevops/network_services_structure:statusquo-apache
+    container_name: statusquo-apache
+    ports:
+      - 8000:8000

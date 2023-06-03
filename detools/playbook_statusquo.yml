@@ -25,19 +25,17 @@
       tags:
         - network
 
- # DNS Requirement
-    # - name: Copy dns interfaces file
-    #   copy:
-    #     src: ../network/dns/resolv.conf
-    #     dest: /etc/resolv.conf
   
+    - name: Copiando o arquivo docker-compose.yml para a VM1
+      copy:
+        src: "../df-compose/statusquo/docker-compose.yml"
+        dest: /home/vagrant/
 
-  
-    - name: opt01-ss
-      synchronize:
-        src: "../isolated_environment/imagem_for_dockerhub_statusquo/"
-        dest: "/home/vagrant/"
-
+    - name: Executando o docker-compose
+      community.docker.docker_compose:
+        project_src: /home/vagrant
+        files:
+          - docker-compose.yml
 
   handlers:
     - name: Restart network

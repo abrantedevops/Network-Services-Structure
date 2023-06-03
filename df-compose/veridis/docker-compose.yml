@@ -1,0 +1,55 @@
+#Parte 3 - Docker Compose
+
+version: '3'
+
+services:
+  veridis-bindm:
+    image: abrantedevops/network_services_structure:veridis-bind-master
+    container_name: veridis-bindm
+    networks:
+      redelan:
+        ipv4_address: 192.168.10.3
+      redewan:
+        ipv4_address: 203.0.113.3
+    ports:
+      - 53:53
+
+  veridis-binds:
+    image: abrantedevops/network_services_structure:veridis-bind-slave
+    container_name: veridis-binds
+    networks:
+      redelan:
+        ipv4_address: 192.168.10.5
+      redewan:
+        ipv4_address: 203.0.113.5
+
+  nginx-lan:
+    image: abrantedevops/network_services_structure:veridis-nginx-lan
+    container_name: nginx-lan
+    networks:
+      redelan:
+        ipv4_address: 192.168.10.2
+    ports:
+      - 80:80
+
+  nginx-wan:
+    image: abrantedevops/network_services_structure:veridis-nginx-wan
+    container_name: nginx-wan
+    networks:
+      redewan:
+        ipv4_address: 203.0.113.2
+    ports:
+      - 443:443
+
+networks:
+  redelan:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 192.168.10.0/24
+
+  redewan:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 203.0.113.0/24
