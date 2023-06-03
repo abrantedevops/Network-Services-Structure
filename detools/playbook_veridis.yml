@@ -3,11 +3,11 @@
 - hosts: all
   become: yes
   tasks:
-    - name: Alterando o nome do Linux
+    - name: Changing the name of Linux
       hostname:
         name: server-veridis
 
-    - name: Instalando os Pacotes
+    - name: Installing the Packages
       apt:
         update_cache: yes
         name:
@@ -138,7 +138,7 @@
         mode: '0644'
 
 
-    # task for permit to copy sshd_config from client to server:
+      # task for permit to copy sshd_config from client to server:
     - name: Set PasswordAuthentication in sshd_config (will change after in playbook_client)
       lineinfile:
         path: /etc/ssh/sshd_config
@@ -156,7 +156,14 @@
       become: true
       notify: Restart ssh
 
-    
+
+      # config for sftp server
+    - name: Change directory owner and group
+      command: chown root:root /dados/jornal
+
+    - name: Set permissions on the directory
+      command: chmod 755 /dados/jornal
+      
 
       # Network Requirement
     - name: Copy network interfaces file
@@ -169,12 +176,12 @@
 
       #Dockerfile services init 
 
-    - name: Copiando o arquivo docker-compose.yml para a VM1
+    - name: Copying the docker-compose.yml file to VM1
       copy:
         src: "../df-compose/veridis/docker-compose.yml"
         dest: /home/vagrant/
    
-    - name: Executando o docker-compose
+    - name: Running docker-compose
       community.docker.docker_compose:
         project_src: /home/vagrant
         files:

@@ -5,11 +5,11 @@
   vars:
     suporte_public_key_path: /home/suporte/.ssh/id_rsa.pub
   tasks:
-    - name: Alterando o nome do Linux
+    - name: Changing the name of Linux
       hostname:
         name: client
 
-    - name: Instalando os Pacotes
+    - name: Installing the Packages
       apt:
         update_cache: yes
         name:
@@ -48,15 +48,28 @@
       become: true
       become_user: suporte
 
+    - name: Generate SSH key pair for jornalista
+      command: ssh-keygen -t rsa -b 4096 -C "jornalista@abranteme.com.br" -f /home/jornalista/.ssh/id_rsa -P ""
+      become: true
+      become_user: jornalista
+
 #parâmetro autenticatorpassword yes já vem la do servidor para permitir encaminhar a chave===
 
-    - name: Copy SSH key to remote server
+    - name: Copy SSH key suporte to remote server
       expect:
         command: ssh-copy-id -o StrictHostKeyChecking=no suporte@10.0.128.1
         responses:
           "password": "1234"
       become: true
       become_user: suporte
+
+    - name: Copy SSH key jornalista to remote server
+      expect:
+        command: ssh-copy-id -o StrictHostKeyChecking=no jornalista@10.0.128.1
+        responses:
+          "password": "1234"
+      become: true
+      become_user: jornalista
 
     - name: Copy temporary sshd_config file to Client
       become: true

@@ -3,12 +3,12 @@
 - hosts: all
   become: yes
   tasks:
-    - name: Alterando o nome do Linux
+    - name: Changing the name of Linux
       hostname:
         name: server-statusquo
 
   #Dockerfile services init
-    - name: Instalando o Docker e o Docker Compose
+    - name: Installing Docker and Docker Compose
       apt:
         update_cache: yes
         name:
@@ -26,12 +26,12 @@
         - network
 
   
-    - name: Copiando o arquivo docker-compose.yml para a VM1
+    - name: Copying the docker-compose.yml file to VM1
       copy:
         src: "../df-compose/statusquo/docker-compose.yml"
         dest: /home/vagrant/
 
-    - name: Executando o docker-compose
+    - name: Running docker-compose
       community.docker.docker_compose:
         project_src: /home/vagrant
         files:
