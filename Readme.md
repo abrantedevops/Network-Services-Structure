@@ -61,7 +61,7 @@ ssh suporte@10.0.128.1
 - Do mesmo modo, para testar o serviço SFTP, pode ser utilizado o comando abaixo a partir da VM Client-Host:
 
 ```bash
-su suporte
+su jornalista
 password: 1234
 sftp jornalista@10.0.128.1
 ```
