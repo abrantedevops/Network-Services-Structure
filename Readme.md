@@ -2,7 +2,7 @@
 
 <p align="center"><img src="./img/bellsoft-s-docker-hub-images-overview.webp" alt="Scope" style="max-width:100%"></p>
 
-Infraestrutura como código (IaC) é uma prática de desenvolvimento de software que se enquadra na abordagem DevOps. Ela envolve a automação e gerenciamento da infraestrutura de um sistema de computador usando código, assim, as tecnologias empregadas neste tutorial, em conjunto o Vagrant, o Ansible e o Docker fornecem uma poderosa combinação de ferramentas para a criação, provisionamento e implantação de infraestrutura e aplicativos como código. Eles permitem que definir, compartilhar e gerenciar toda a pilha de infraestrutura, desde a configuração do sistema até a execução de aplicativos, de forma automatizada e escalável. 
+Infraestrutura como código (IaC) é uma prática de desenvolvimento de software que se enquadra na abordagem DevOps. Ela envolve a automação e gerenciamento da infraestrutura de um sistema de computador usando código, assim, as tecnologias empregadas neste tutorial, em conjunto o Vagrant, o Ansible e o Docker fornecem uma poderosa combinação de ferramentas para a criação, provisionamento e implantação de infraestrutura e aplicativos como código. Eles permitem definir, compartilhar e gerenciar toda a pilha de infraestrutura, desde a configuração do sistema até a execução de aplicativos, de forma automatizada e escalável. 
 
 <h2>Escopo</h2>
 
@@ -33,7 +33,7 @@ Em seguida, foram criados RAID para cada partição. Por fim, foi criado um LVM 
 
 <h2>Gerenciando o Cenário</h2>
 
-A estrutura do projetos envolvendo o Vagrant e o Ansible e o Docker está ilustrada na imagem abaixo. Foram configurados três máquinas virtuais a partir do arquivo vagrantfile, sendo elas: Server-Veridis, Server-Statusquo e Client-Host. Em seguida, para cada uma das máquinas virtuais o ansible é inicializado a partir dos arquivos de configuração playbook.yml, que por sua vez envia o arquivo docker-compose.yml para dentro de cada uma das VMs. Por fim, para as VMs Server-Veridis e Server-Statusquo o docker é utilizado para a criação de containers dos serviços de DNS, Nginx e Apache a partir das imagens que foram anteriormente criadas mediante modificação de acordo com as necessidades para atender os requisitos do projeto. A VM do Cliente-Host é utilizada para testar a parte do acesso remoto ao servidor Veridis, bem como o serviço de SFTP.
+A estrutura do tutorial envolvendo o Vagrant e o Ansible e o Docker está ilustrada na imagem abaixo. Foram configurados três máquinas virtuais a partir do arquivo vagrantfile, sendo elas: Server-Veridis, Server-Statusquo e Client-Host. Em seguida, para cada uma das máquinas virtuais o ansible é inicializado a partir dos arquivos de configuração playbook.yml, que por sua vez envia o arquivo docker-compose.yml para dentro de cada uma das VMs. Por fim, para as VMs Server-Veridis e Server-Statusquo o docker é utilizado para a criação de containers dos serviços de DNS, Nginx e Apache a partir das imagens que foram anteriormente criadas mediante modificação de acordo com as necessidades para atender os requisitos do tutorial. A VM do Cliente-Host é utilizada para testar a parte do acesso remoto ao servidor Veridis, bem como o serviço de SFTP.
 
 <p align="center"><img src="./img/devops_drawio.png" alt="Scope" style="max-width:100%"></p>
 
@@ -70,13 +70,13 @@ sftp
 # Clone este repositório
 $ git clone https://github.com/abrantedevops/-Network-Services-Structure.git
 
-# Acesse a pasta do projeto no terminal/cmd
-$ cd -Network-Services-Structure
+# Acesse a pasta no terminal/cmd em que está o arquivo Vagrantfile
+$ cd detools
 
-# Execute o comando abaixo para criar as máquinas virtuais e executar o projeto
+# Execute o comando abaixo para criar as máquinas virtuais e executar o tutorial
 $ vagrant up
 
-# Nesse momento o Vagrantfile irá criar as máquinas virtuais e executar o playbook ansible para a instalação e configuração dos requisitos necessários para a execução do projeto. Em seguida, o Docker Compose irá criar os containers e executar o projeto. Para comunicação entre a máquina real e a máquina virtual Veridis foi provisionado uma interface do tipo Host-Only, desse modo, caso queira verificar o desempenho dos servidores DNS, Proxy e WEB, adicione no arquivo hosts da sua máquina real a configuração abaixo. Após isso, acesse os endereços de teste no navegador e verifique os serviços em funcionamento. Usuário e senha para validação em: http://app02.abranteme.com.br/jornal/ é "abranteme" e "abranteme".
+# Nesse momento o Vagrantfile irá criar as máquinas virtuais e executar o playbook ansible para a instalação e configuração dos requisitos necessários para a execução do tutorial. Em seguida, o Docker Compose irá criar os containers e executar o tutorial. Para comunicação entre a máquina real e a máquina virtual Veridis foi provisionado uma interface do tipo Host-Only, desse modo, caso queira verificar o desempenho dos servidores DNS, Proxy e WEB, adicione no arquivo hosts da sua máquina real a configuração abaixo. Após isso, acesse os endereços de teste no navegador e verifique os serviços em funcionamento. Usuário e senha para validação em: http://app02.abranteme.com.br/jornal/ é "abranteme" e "abranteme".
 
 192.168.57.7	www.abranteme.com.br	www.app01.abranteme.com.br	app01.abranteme.com.br	app02.abranteme.com.br
 
