@@ -176,16 +176,16 @@
 
       #Dockerfile services init 
 
-    - name: Copying the docker-compose.yml file to VM1
+    - name: Copying the docker-compose.yaml file to VM1
       copy:
-        src: "../df-compose/veridis/docker-compose.yml"
+        src: "../df-compose/veridis/docker-compose.yaml"
         dest: /home/vagrant/
    
     - name: Running docker-compose
       community.docker.docker_compose:
         project_src: /home/vagrant
         files:
-          - docker-compose.yml
+          - docker-compose.yaml
 
 
   handlers:
