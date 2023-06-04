@@ -21,22 +21,8 @@ Vagrant.configure("2") do |config|
       vb.customize ['storageattach', :id, '--storagectl', 'SATA Controller', '--port', 2, '--device', 0, '--type', 'hdd', '--medium', 'diskz2z.vdi']
       vb.customize ['createhd', '--filename', 'diskz3z.vdi', '--size', '10240']
       vb.customize ['storageattach', :id, '--storagectl', 'SATA Controller', '--port', 3, '--device', 0, '--type', 'hdd', '--medium', 'diskz3z.vdi']
-      
-      # Add host-only network adapter (#5)
-      #vb.customize ['modifyvm', :id, '--nic5', 'hostonly']
-      #vb.customize ['modifyvm', :id, '--hostonlyadapter5', 'vboxnet0']
-      #vb.customize ['modifyvm', :id, '--nicpromisc5', 'allow-all']
-      #vb.customize ['modifyvm', :id, '--hostonlyadapter6', 'vboxnet0']
 
     end
-    #host-only network WAN (comunication between VM and host)
-    #veridis.vm.provision "shell", inline: <<-SHELL
-    #  echo "auto eth4" >> /etc/network/interfaces
-    #  echo "iface eth4 inet static" >> /etc/network/interfaces
-    #  echo "address 192.168.57.8" >> /etc/network/interfaces
-    #  echo "netmask 255.255.255.0" >> /etc/network/interfaces
-    #  ifup eth4
-    #SHELL
 
     #host-only network LAN (comunication between VM and host)
     veridis.vm.network "private_network", ip: "192.168.57.7"
@@ -47,7 +33,7 @@ Vagrant.configure("2") do |config|
 
     # Configuração de provisionamento do Veridis com Ansible
     veridis.vm.provision "ansible" do |ansible|
-      ansible.playbook = "playbook_veridis.yaml"
+      ansible.playbook = "playbook_veridis.yml"
     end
   end
 
@@ -67,7 +53,7 @@ Vagrant.configure("2") do |config|
 
     # Configuração de provisionamento com Ansible
     statusquo.vm.provision "ansible" do |ansible|
-      ansible.playbook = "playbook_statusquo.yaml"
+      ansible.playbook = "playbook_statusquo.yml"
     end
   end
 
@@ -86,7 +72,7 @@ Vagrant.configure("2") do |config|
 
     # Configuração de provisionamento com Ansible
     client.vm.provision "ansible" do |ansible|
-      ansible.playbook = "playbook_client.yaml"
+      ansible.playbook = "playbook_client.yml"
     end
   end
 

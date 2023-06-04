@@ -1,0 +1,46 @@
+#Parte 2 - Ansible-Statusquo
+
+- hosts: all
+  become: yes
+  tasks:
+    - name: Changing the name of Linux
+      hostname:
+        name: server-statusquo
+
+  #Dockerfile services init
+    - name: Installing Docker and Docker Compose
+      apt:
+        update_cache: yes
+        name:
+          - docker.io
+          - docker-compose
+        state: present
+
+ # Network Requirement
+    - name: Copy network interfaces file
+      copy:
+        src: ../network/statusquo/interfaces
+        dest: /etc/network/interfaces
+      notify: Restart network
+      tags:
+        - network
+
+  
+    - name: Copying the docker-compose.yml file to VM1
+      copy:
+        src: "../df-compose/statusquo/docker-compose.yml"
+        dest: /home/vagrant/
+
+    - name: Running docker-compose
+      community.docker.docker_compose:
+        project_src: /home/vagrant
+        files:
+          - docker-compose.yml
+
+  handlers:
+    - name: Restart network
+      service:
+        name: networking
+        state: restarted
+      tags:
+        - network
