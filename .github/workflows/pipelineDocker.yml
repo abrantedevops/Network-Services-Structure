@@ -1,0 +1,60 @@
+name: Build/Deploy to Registry Container
+
+on:
+  push:
+    branches:
+      - dev
+
+jobs:
+    build:
+        runs-on: ubuntu-latest
+        steps:
+            - name: Checkout repository
+              uses: actions/checkout@v2
+
+            - name: Login to DockerHub
+              uses: docker/login-action@v1
+              with:
+                username: ${{ secrets.USER }}
+                password: ${{ secrets.PASS }}
+
+            - name: Build and push Docker image for bind-master
+              uses: docker/build-push-action@v2
+              with:
+                context: ./isolated_environment/imagem_for_dockerhub_veridis/bind9
+                dockerfile: ./isolated_environment/imagem_for_dockerhub_veridis/bind9/dockerfile
+                push: true
+                tags: abrantedevops/network_services_structure:veridis-bind-master
+
+            - name: Build and push Docker image for bind-slave
+              uses: docker/build-push-action@v2
+              with:
+                context: ./isolated_environment/imagem_for_dockerhub_veridis/bind9/slave
+                dockerfile: ./isolated_environment/imagem_for_dockerhub_veridis/bind9/slave/dockerfile
+                push: true
+                tags: abrantedevops/network_services_structure:veridis-bind-slave
+
+            - name: Build and push Docker image for nginx-lan
+              uses: docker/build-push-action@v2
+              with:
+                context: ./isolated_environment/imagem_for_dockerhub_veridis/nginx/lan
+                dockerfile: ./isolated_environment/imagem_for_dockerhub_veridis/nginx/lan/dockerfile
+                push: true
+                tags: abrantedevops/network_services_structure:veridis-nginx-lan
+
+            - name: Build and push Docker image for nginx-wan
+              uses: docker/build-push-action@v2
+              with:
+                context: ./isolated_environment/imagem_for_dockerhub_veridis/nginx/wan
+                dockerfile: ./isolated_environment/imagem_for_dockerhub_veridis/nginx/wan/dockerfile
+                push: true
+                tags: abrantedevops/network_services_structure:veridis-nginx-wan
+
+            - name: Build and push Docker image for apache
+              uses: docker/build-push-action@v2
+              with:
+                context: ./isolated_environment/imagem_for_dockerhub_statusquo/apache
+                dockerfile: ./isolated_environment/imagem_for_dockerhub_statusquo/apache/dockerfile
+                push: true
+                tags: abrantedevops/network_services_structure:statusquo-apache
+                    
