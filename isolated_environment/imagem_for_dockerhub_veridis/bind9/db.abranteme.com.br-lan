@@ -1,0 +1,18 @@
+; Atualizado em 2023-05-27 20:33:56
+; BIND data file for local loopback interface
+;
+$TTL    86400
+$ORIGIN abranteme.com.br.
+@       IN      SOA     abranteme.com.br. gerenteti.abranteme.com.br. (
+                        2023043003      ; Serial
+                          3600          ; Refresh
+                          86400         ; Retry
+                        2419200         ; Expire
+                         604800 )       ; Negative Cache TTL
+;
+        IN      A       192.168.10.2
+        IN      NS      ns01.abranteme.com.br.
+ns01    IN      A       192.168.10.3
+app01   IN      A       192.168.10.2
+app02   IN      A       192.168.10.2
+www     IN      CNAME   app01.abranteme.com.br.

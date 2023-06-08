@@ -1,0 +1,31 @@
+server {
+        listen 203.0.113.2:443 ssl;
+        server_name app01.abranteme.com.br;
+
+        ssl_certificate /etc/nginx/certificado/abranteme.crt;
+        ssl_certificate_key /etc/nginx/certificado/abranteme.key;
+
+        location / {
+                proxy_pass http://200.200.200.42:8000;
+                proxy_set_header Host $host;
+                proxy_set_header X-Real-IP $remote_addr;
+                proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+                proxy_set_header X-Forwarded-Proto https;
+        }
+}
+
+server {
+        listen 203.0.113.2:443 ssl;
+        server_name app02.abranteme.com.br;
+
+        ssl_certificate /etc/nginx/certificado/abranteme.crt;
+        ssl_certificate_key /etc/nginx/certificado/abranteme.key;
+
+        location / {
+                proxy_pass http://200.200.200.43:8000;
+                proxy_set_header Host $host;
+                proxy_set_header X-Real-IP $remote_addr;
+                proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+                proxy_set_header X-Forwarded-Proto https;
+        }
+}
