@@ -12,13 +12,83 @@ jobs:
             - name: Checkout repository
               uses: actions/checkout@v2
 
+            - name: Build Docker image for bind-master
+              uses: docker/build-push-action@v2
+              with:
+                context: ./isolated_environment/imagem_for_dockerhub_veridis/bind9
+                dockerfile: ./isolated_environment/imagem_for_dockerhub_veridis/bind9/dockerfile
+                push: false
+                tags: abrantedevops/network_services_structure:veridis-bind-master
+
+            - name: Build Docker image for bind-slave
+              uses: docker/build-push-action@v2
+              with:
+                context: ./isolated_environment/imagem_for_dockerhub_veridis/bind9/slave
+                dockerfile: ./isolated_environment/imagem_for_dockerhub_veridis/bind9/slave/dockerfile
+                push: false
+                tags: abrantedevops/network_services_structure:veridis-bind-slave
+
+            - name: Build Docker image for nginx-lan
+              uses: docker/build-push-action@v2
+              with:
+                context: ./isolated_environment/imagem_for_dockerhub_veridis/nginx/lan
+                dockerfile: ./isolated_environment/imagem_for_dockerhub_veridis/nginx/lan/dockerfile
+                push: false
+                tags: abrantedevops/network_services_structure:veridis-nginx-lan
+
+            - name: Build Docker image for nginx-wan
+              uses: docker/build-push-action@v2
+              with:
+                context: ./isolated_environment/imagem_for_dockerhub_veridis/nginx/wan
+                dockerfile: ./isolated_environment/imagem_for_dockerhub_veridis/nginx/wan/dockerfile
+                push: false
+                tags: abrantedevops/network_services_structure:veridis-nginx-wan
+
+            - name: Build Docker image for apache
+              uses: docker/build-push-action@v2
+              with:
+                context: ./isolated_environment/imagem_for_dockerhub_statusquo/apache
+                dockerfile: ./isolated_environment/imagem_for_dockerhub_statusquo/apache/dockerfile
+                push: false
+                tags: abrantedevops/network_services_structure:statusquo-apache
+        
+    scan-images:
+        needs: build
+        if: ${{ needs.build.result == 'success' }}
+        runs-on: ubuntu-latest
+        steps:
+            - name: Checkout repository
+              uses: actions/checkout@v2
+
+            - name: Install Trivy
+              run: |
+                wget https://github.com/aquasecurity/trivy/releases/latest/download/trivy_$(uname -s)_$(uname -m).tar.gz
+                tar zxvf trivy_$(uname -s)_$(uname -m).tar.gz
+                sudo mv trivy /usr/local/bin/
+
+            - name: Scan Docker images
+              run: |
+                trivy image --exit-code 1 --severity HIGH,CRITICAL abrantedevops/network_services_structure:veridis-bind-master
+                trivy image --exit-code 1 --severity HIGH,CRITICAL abrantedevops/network_services_structure:veridis-bind-slave
+                trivy image --exit-code 1 --severity HIGH,CRITICAL abrantedevops/network_services_structure:veridis-nginx-lan
+                trivy image --exit-code 1 --severity HIGH,CRITICAL abrantedevops/network_services_structure:veridis-nginx-wan
+                trivy image --exit-code 1 --severity HIGH,CRITICAL abrantedevops/network_services_structure:statusquo-apache
+
+    deploy:
+        needs: scan-images
+        if: ${{ needs.scan-images.result == 'success' }}
+        runs-on: ubuntu-latest
+        steps:
+            - name: Checkout repository
+              uses: actions/checkout@v2
+
             - name: Login to DockerHub
               uses: docker/login-action@v1
               with:
                 username: ${{ secrets.USER }}
                 password: ${{ secrets.PASS }}
 
-            - name: Build and push Docker image for bind-master
+            - name: Push image for bind-master
               uses: docker/build-push-action@v2
               with:
                 context: ./isolated_environment/imagem_for_dockerhub_veridis/bind9
@@ -26,7 +96,7 @@ jobs:
                 push: true
                 tags: abrantedevops/network_services_structure:veridis-bind-master
 
-            - name: Build and push Docker image for bind-slave
+            - name: Push image for bind-slave
               uses: docker/build-push-action@v2
               with:
                 context: ./isolated_environment/imagem_for_dockerhub_veridis/bind9/slave
@@ -34,7 +104,7 @@ jobs:
                 push: true
                 tags: abrantedevops/network_services_structure:veridis-bind-slave
 
-            - name: Build and push Docker image for nginx-lan
+            - name: Push image for nginx-lan
               uses: docker/build-push-action@v2
               with:
                 context: ./isolated_environment/imagem_for_dockerhub_veridis/nginx/lan
@@ -42,7 +112,7 @@ jobs:
                 push: true
                 tags: abrantedevops/network_services_structure:veridis-nginx-lan
 
-            - name: Build and push Docker image for nginx-wan
+            - name: Push image for nginx-wan
               uses: docker/build-push-action@v2
               with:
                 context: ./isolated_environment/imagem_for_dockerhub_veridis/nginx/wan
@@ -50,11 +120,10 @@ jobs:
                 push: true
                 tags: abrantedevops/network_services_structure:veridis-nginx-wan
 
-            - name: Build and push Docker image for apache
+            - name: Push image for apache
               uses: docker/build-push-action@v2
               with:
                 context: ./isolated_environment/imagem_for_dockerhub_statusquo/apache
                 dockerfile: ./isolated_environment/imagem_for_dockerhub_statusquo/apache/dockerfile
                 push: true
                 tags: abrantedevops/network_services_structure:statusquo-apache
-                    
