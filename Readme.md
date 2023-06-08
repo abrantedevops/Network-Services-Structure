@@ -1,14 +1,20 @@
 <h1>Mãos à obra: Provisionando sistemas e serviços com Vagrant, Ansible e Docker</h1>
 
-<div align="center" style="display: flex; align-items: center; justify-content: center; flex-wrap: wrap; gap: 1rem;">
+<p align="center" style="display: flex; justify-content: center;">
+  <a href="https://www.vagrantup.com/downloads" style="margin-right: 0.5rem;">
+    <img src="https://camo.githubusercontent.com/46e74e9e66acfaa2ee2b0a609518a7787bcad7cad8fd6fb93d260ae1b6d67ba8/68747470733a2f2f696d672e736869656c64732e696f2f62616467652f56616772616e742d3138363846323f7374796c653d666f722d7468652d6261646765266c6f676f3d56616772616e74266c6f676f436f6c6f723d7768697465" alt="Vagrant version" style="max-width:100%;">
+  </a>
 
-<a href="https://www.vagrantup.com/downloads" ><img src="https://camo.githubusercontent.com/46e74e9e66acfaa2ee2b0a609518a7787bcad7cad8fd6fb93d260ae1b6d67ba8/68747470733a2f2f696d672e736869656c64732e696f2f62616467652f56616772616e742d3138363846323f7374796c653d666f722d7468652d6261646765266c6f676f3d56616772616e74266c6f676f436f6c6f723d7768697465" alt="Vagrant version" data-canonical-src="https://img.shields.io/badge/Vagrant-1868F2?style=for-the-badge&logo=Vagrant&logoColor=white" style="max-width:100%;"></a>
+  <a href="https://www.ansible.com/" style="margin-right: 0.5rem;">
+    <img src="https://camo.githubusercontent.com/e3a57611b4da340881875f8a432a35d5530ac1d36916f9242dfe7029acca54e7/68747470733a2f2f696d672e736869656c64732e696f2f62616467652f416e7369626c652d3030303030303f7374796c653d666f722d7468652d6261646765266c6f676f3d616e7369626c65266c6f676f436f6c6f723d7768697465" alt="Ansible version" style="max-width:100%;">
+  </a>
 
-<a href="https://www.ansible.com/" ><img src="https://camo.githubusercontent.com/e3a57611b4da340881875f8a432a35d5530ac1d36916f9242dfe7029acca54e7/68747470733a2f2f696d672e736869656c64732e696f2f62616467652f416e7369626c652d3030303030303f7374796c653d666f722d7468652d6261646765266c6f676f3d616e7369626c65266c6f676f436f6c6f723d7768697465" alt="Ansible version" data-canonical-src="https://img.shields.io/badge/Ansible-000000?style=for-the-badge&logo=ansible&logoColor=white" style="max-width:100%;"></a>
+  <a href="https://www.docker.com/" style="margin-right: 0.5rem;">
+    <img src="https://camo.githubusercontent.com/63350538fde994bc287ccd4908809301e157980e6564bf78d2c5cec22c0a5914/68747470733a2f2f696d672e736869656c64732e696f2f62616467652f446f636b65722d3243413545303f7374796c653d666f722d7468652d6261646765266c6f676f3d646f636b6572266c6f676f436f6c6f723d7768697465" alt="Docker version" style="max-width:100%;">
+  </a>
+</p>
 
-<a href="https://www.docker.com/" ><img src="https://camo.githubusercontent.com/63350538fde994bc287ccd4908809301e157980e6564bf78d2c5cec22c0a5914/68747470733a2f2f696d672e736869656c64732e696f2f62616467652f446f636b65722d3243413545303f7374796c653d666f722d7468652d6261646765266c6f676f3d646f636b6572266c6f676f436f6c6f723d7768697465" alt="Docker version" data-canonical-src="https://img.shields.io/badge/Docker-2CA5E0?style=for-the-badge&logo=docker&logoColor=white" style="max-width:100%;"></a>
 
-</div>
 
 
 <p align="center"><img src="./img/bellsoft-s-docker-hub-images-overview.webp" alt="Scope" style="max-width:100%"></p>
