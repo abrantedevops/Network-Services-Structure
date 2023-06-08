@@ -1,6 +1,6 @@
 <h1>Mãos à obra: Provisionando sistemas e serviços com Vagrant, Ansible e Docker</h1>
 
-<div align="center" style="display: flex; align-items: center; justify-content: center; gap: 1rem;">
+<div align="center" style="display: flex; align-items: center; justify-content: center; flex-wrap: wrap; gap: 1rem;">
 
 <a href="https://www.vagrantup.com/downloads" ><img src="https://camo.githubusercontent.com/46e74e9e66acfaa2ee2b0a609518a7787bcad7cad8fd6fb93d260ae1b6d67ba8/68747470733a2f2f696d672e736869656c64732e696f2f62616467652f56616772616e742d3138363846323f7374796c653d666f722d7468652d6261646765266c6f676f3d56616772616e74266c6f676f436f6c6f723d7768697465" alt="Vagrant version" data-canonical-src="https://img.shields.io/badge/Vagrant-1868F2?style=for-the-badge&logo=Vagrant&logoColor=white" style="max-width:100%;"></a>
 
