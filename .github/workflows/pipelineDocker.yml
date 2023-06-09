@@ -10,34 +10,44 @@ jobs:
         runs-on: ubuntu-latest
         steps:
             - name: Checkout repository
-              uses: actions/checkout@v2
+              uses: actions/checkout@v3
 
             - name: Build Docker image for bind-master
               run: docker build -t abrantedevops/network_services_structure:veridis-bind-master ./isolated_environment/imagem_for_dockerhub_veridis/bind9
-      
             
             - name: Build Docker image for bind-slave
               run: docker build -t abrantedevops/network_services_structure:veridis-bind-slave ./isolated_environment/imagem_for_dockerhub_veridis/bind9/slave
-      
            
             - name: Build Docker image for nginx-lan
               run: docker build -t abrantedevops/network_services_structure:veridis-nginx-lan ./isolated_environment/imagem_for_dockerhub_veridis/nginx/lan
-      
        
             - name: Build Docker image for nginx-wan
               run: docker build -t abrantedevops/network_services_structure:veridis-nginx-wan ./isolated_environment/imagem_for_dockerhub_veridis/nginx/wan
       
-      
             - name: Build Docker image for apache
               run: docker build -t abrantedevops/network_services_structure:statusquo-apache ./isolated_environment/imagem_for_dockerhub_statusquo/apache
         
-    Vulnerability:
+    Test:
         needs: Build
+        runs-on: ubuntu-latest
+        steps:
+            - name: Checkout repository
+              uses: actions/checkout@v3
+
+            - name: Test 
+              run: | 
+                images=("veridis-bind-master" "veridis-bind-slave" "veridis-nginx-lan" "veridis-nginx-wan" "statusquo-apache")
+                for image in "${images[@]}"; do
+                docker run --rm -d --name "$image" "abrantedevops/network_services_structure:$image"
+                done
+
+    Vulnerability:
+        needs: Test
         if: ${{ needs.Build.result == 'success' }}
         runs-on: ubuntu-latest
         steps:
             - name: Checkout repository
-              uses: actions/checkout@v2
+              uses: actions/checkout@v3
 
             - name: Install Trivy
               run: |
@@ -58,10 +68,10 @@ jobs:
         runs-on: ubuntu-latest
         steps:
             - name: Checkout repository
-              uses: actions/checkout@v2
+              uses: actions/checkout@v3
 
             - name: Login to DockerHub
-              uses: docker/login-action@v1
+              uses: docker/login-action@v2.2.0
               with:
                 username: ${{ secrets.USER }}
                 password: ${{ secrets.PASS }}
@@ -70,5 +80,6 @@ jobs:
               run: |
                 images=("veridis-bind-master" "veridis-bind-slave" "veridis-nginx-lan" "veridis-nginx-wan" "statusquo-apache")
                 for image in "${images[@]}"; do
+                docker build -t "abrantedevops/network_services_structure:$image" "./isolated_environment/imagem_for_dockerhub_veridis/$image"
                 docker push "abrantedevops/network_services_structure:$image"
                 done
