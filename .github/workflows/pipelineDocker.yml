@@ -46,11 +46,11 @@ jobs:
 
             - name: Scan Docker images
               run: |
-                trivy abrantedevops/network_services_structure:veridis-bind-master
-                trivy abrantedevops/network_services_structure:veridis-bind-slave
-                trivy abrantedevops/network_services_structure:veridis-nginx-lan
-                trivy abrantedevops/network_services_structure:veridis-nginx-wan
-                trivy abrantedevops/network_services_structure:statusquo-apache
+                trivy image abrantedevops/network_services_structure:veridis-bind-master
+                trivy image abrantedevops/network_services_structure:veridis-bind-slave
+                trivy image abrantedevops/network_services_structure:veridis-nginx-lan
+                trivy image abrantedevops/network_services_structure:veridis-nginx-wan
+                trivy image abrantedevops/network_services_structure:statusquo-apache
 
     deploy:
         needs: scan-images
