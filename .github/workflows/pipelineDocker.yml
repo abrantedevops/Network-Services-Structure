@@ -13,44 +13,23 @@ jobs:
               uses: actions/checkout@v2
 
             - name: Build Docker image for bind-master
-              uses: docker/build-push-action@v2
-              with:
-                context: ./isolated_environment/imagem_for_dockerhub_veridis/bind9
-                dockerfile: ./isolated_environment/imagem_for_dockerhub_veridis/bind9/dockerfile
-                push: false
-                tags: abrantedevops/network_services_structure:veridis-bind-master
-
+              run: docker build -t abrantedevops/network_services_structure:veridis-bind-master ./isolated_environment/imagem_for_dockerhub_veridis/bind9
+      
+            
             - name: Build Docker image for bind-slave
-              uses: docker/build-push-action@v2
-              with:
-                context: ./isolated_environment/imagem_for_dockerhub_veridis/bind9/slave
-                dockerfile: ./isolated_environment/imagem_for_dockerhub_veridis/bind9/slave/dockerfile
-                push: false
-                tags: abrantedevops/network_services_structure:veridis-bind-slave
-
+              run: docker build -t abrantedevops/network_services_structure:veridis-bind-slave ./isolated_environment/imagem_for_dockerhub_veridis/bind9/slave
+      
+           
             - name: Build Docker image for nginx-lan
-              uses: docker/build-push-action@v2
-              with:
-                context: ./isolated_environment/imagem_for_dockerhub_veridis/nginx/lan
-                dockerfile: ./isolated_environment/imagem_for_dockerhub_veridis/nginx/lan/dockerfile
-                push: false
-                tags: abrantedevops/network_services_structure:veridis-nginx-lan
-
+              run: docker build -t abrantedevops/network_services_structure:veridis-nginx-lan ./isolated_environment/imagem_for_dockerhub_veridis/nginx/lan
+      
+       
             - name: Build Docker image for nginx-wan
-              uses: docker/build-push-action@v2
-              with:
-                context: ./isolated_environment/imagem_for_dockerhub_veridis/nginx/wan
-                dockerfile: ./isolated_environment/imagem_for_dockerhub_veridis/nginx/wan/dockerfile
-                push: false
-                tags: abrantedevops/network_services_structure:veridis-nginx-wan
-
+              run: docker build -t abrantedevops/network_services_structure:veridis-nginx-wan ./isolated_environment/imagem_for_dockerhub_veridis/nginx/wan
+      
+      
             - name: Build Docker image for apache
-              uses: docker/build-push-action@v2
-              with:
-                context: ./isolated_environment/imagem_for_dockerhub_statusquo/apache
-                dockerfile: ./isolated_environment/imagem_for_dockerhub_statusquo/apache/dockerfile
-                push: false
-                tags: abrantedevops/network_services_structure:statusquo-apache
+              run: docker build -t abrantedevops/network_services_structure:statusquo-apache ./isolated_environment/imagem_for_dockerhub_statusquo/apache
         
     scan-images:
         needs: build
@@ -87,10 +66,42 @@ jobs:
                 username: ${{ secrets.USER }}
                 password: ${{ secrets.PASS }}
 
-            - name: Push Docker images to DockerHub
-              run: |
-                docker push abrantedevops/network_services_structure:veridis-bind-master
-                docker push abrantedevops/network_services_structure:veridis-bind-slave
-                docker push abrantedevops/network_services_structure:veridis-nginx-lan
-                docker push abrantedevops/network_services_structure:veridis-nginx-wan
-                docker push abrantedevops/network_services_structure:statusquo-apache
+            - name: Push Docker image for bind-master
+              uses: docker/build-push-action@v2
+              with:
+                context: ./isolated_environment/imagem_for_dockerhub_veridis/bind9
+                dockerfile: ./isolated_environment/imagem_for_dockerhub_veridis/bind9/dockerfile
+                push: true
+                tags: abrantedevops/network_services_structure:veridis-bind-master
+  
+            - name: Push Docker image for bind-slave
+              uses: docker/build-push-action@v2
+              with:
+                context: ./isolated_environment/imagem_for_dockerhub_veridis/bind9/slave
+                dockerfile: ./isolated_environment/imagem_for_dockerhub_veridis/bind9/slave/dockerfile
+                push: true
+                tags: abrantedevops/network_services_structure:veridis-bind-slave
+  
+            - name: Push Docker image for nginx-lan
+              uses: docker/build-push-action@v2
+              with:
+                context: ./isolated_environment/imagem_for_dockerhub_veridis/nginx/lan
+                dockerfile: ./isolated_environment/imagem_for_dockerhub_veridis/nginx/lan/dockerfile
+                push: true
+                tags: abrantedevops/network_services_structure:veridis-nginx-lan
+
+            - name: Push Docker image for nginx-wan
+              uses: docker/build-push-action@v2
+              with:
+                context: ./isolated_environment/imagem_for_dockerhub_veridis/nginx/wan
+                dockerfile: ./isolated_environment/imagem_for_dockerhub_veridis/nginx/wan/dockerfile
+                push: true
+                tags: abrantedevops/network_services_structure:veridis-nginx-wan
+
+            - name: Push Docker image for apache
+              uses: docker/build-push-action@v2
+              with:
+                context: ./isolated_environment/imagem_for_dockerhub_statusquo/apache
+                dockerfile: ./isolated_environment/imagem_for_dockerhub_statusquo/apache/dockerfile
+                push: true
+                tags: abrantedevops/network_services_structure:statusquo-apache
