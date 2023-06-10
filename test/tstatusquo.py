@@ -8,7 +8,7 @@ def test_docker_web():
     for container in containers:
         print("========================================= APACHE =========================================")
         print()
-        print("Instalando dependências no container: " + "\033[91m"+container["name"]+"\033[0m")
+        print("Instalada as dependências no container: " + "\033[91m"+container["name"]+"\033[0m")
         subprocess.run(["docker", "exec", container["name"], "/bin/sh", "-c", "apt install curl -y"])
         print()
         print("Iniciando o Teste das Requisições LAN e WAN")

@@ -8,6 +8,8 @@ def test_docker_dns():
     for container in containers:
         print("========================================= BIND9 =========================================")
         print()
+        print("Instalada as dependências no container: " + "\033[91m"+container["name"]+"\033[0m")
+        subprocess.run(["docker", "exec", container["name"], "/bin/sh", "-c", "apt install dnsutils -y"])
         print("Verificando o container do Servidor DNS: " + "\033[91m"+container["name"]+"\033[0m")
         command = ["docker", "exec", container["name"], "/bin/sh", "-c", "nslookup app01.abranteme.com.br"]
         result = subprocess.run(command, capture_output=True, text=True)
