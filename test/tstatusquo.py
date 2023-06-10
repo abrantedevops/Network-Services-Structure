@@ -1,11 +1,6 @@
 import subprocess
 import sys
 
-def stop_docker_container():
-    containers = ["statusquo-apache"]
-    for container in containers:
-        subprocess.run(["docker", "stop", container])
-
 def test_docker_web():
     containers = [
         {"name": "statusquo-apache"},
@@ -34,16 +29,20 @@ def test_docker_web():
             print()
             sys.exit(1)
 
+def stop_docker_container():
+    containers = ["statusquo-apache"]
+    for container in containers:
+        subprocess.run(["docker", "stop", container])
+
+def remove_docker_container():
+    containers = ["statusquo-apache"]
+    for container in containers:
+        subprocess.run(["docker", "rm", container])
 
 
-# def remove_docker_container():
-#     containers = ["statusquo-apache"]
-#     for container in containers:
-#         subprocess.run(["docker", "rm", container])
 
-
-stop_docker_container()
 test_docker_web()
-# remove_docker_container()
+stop_docker_container()
+remove_docker_container()
 
 
