@@ -11,17 +11,20 @@ def test_docker_web():
         print()
         command = ["docker", "exec", container["name"], "/bin/sh", "-c", "service apache2 status"]
         result = subprocess.run(command, capture_output=True, text=True)
-        print(result.stdout)
         print()
         if result.returncode == 0:
-            print("\033[92m+-+-+-+-+-+-+\033[0m")
+            print ("Status: running")
+            print()
+            print("\033[92m+-+-+-+-+-+-+-+-+-+-+\033[0m")
             print("Finished. No error")  
-            print("\033[92m+-+-+-+-+-+-+\033[0m")
+            print("\033[92m+-+-+-+-+-+-+-+-+-+-+\033[0m")
             print()
         else:
-            print("\033[91m+-+-+-+-+-+-+-+-+-+-+-+\033[0m")
+            print ("Status: exited")
+            print()
+            print("\033[91m+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+\033[0m")
             print("Attention! Apache with error.")
-            print("\033[91m+-+-+-+-+-+-+-+-+-+-+-+\033[0m")
+            print("\033[91m+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+\033[0m")
             print()
       
 

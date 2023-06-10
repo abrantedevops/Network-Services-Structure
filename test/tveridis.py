@@ -9,31 +9,20 @@ def test_docker_dns():
     for container in containers:
         print("========================================= BIND9 =========================================")
         print()
-        print("Verificando o container do Servidor DNS: " + "\033[91m" + container["name"] + "\033[0m")
-        command = ["docker", "logs", container["name"]]
-        result = subprocess.run(command, capture_output=True, text=True)
-        logs = result.stdout
-
-        running_index = logs.find("running")
-
-        if running_index != -1:
-            highlighted_logs = (
-                logs[:running_index]
-                + "\033[92m"
-                + logs[running_index : running_index + 7]
-                + "\033[0m"
-                + logs[running_index + 7 :]
-            )
-
-            print("\033[92m+-+-+-+-+-+-+\033[0m")
+        print("Verificando o container do Servidor DNS: " + container["name"])
+        status = subprocess.run(["docker", "container", "inspect", container["name"], "--format", "{{.State.Status}}"], capture_output=True, text=True)
+        print()
+        print("Status: " + status.stdout.strip())
+        print()
+        if status.stdout.strip() == "running":
+            print("\033[92m+-+-+-+-+-+-+-+-+-+-+\033[0m")
             print("Finished. No error")
-            print(highlighted_logs)
-            print("\033[92m+-+-+-+-+-+-+\033[0m")
+            print("\033[92m+-+-+-+-+-+-+-+-+-+-+\033[0m")
             print()
         else:
-            print("\033[91m+-+-+-+-+-+-+-+-+-+-+\033[0m")
-            print("Attention! BIND9 with error")
-            print("\033[91m+-+-+-+-+-+-+-+-+-+-+\033[0m")
+            print("\033[91m+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+\033[0m")
+            print("Attention! Bind9 with error.")
+            print("\033[91m+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+\033[0m")
             print()
 
 def test_docker_nginx():
@@ -42,42 +31,48 @@ def test_docker_nginx():
     ]
     for container in containerslan:
         print("========================================= NGINX =========================================")
-        print("Verificando o container do Servidor Proxy: " + "\033[91m"+container["name"]+"\033[0m")
+        print("Verificando o container do Servidor Proxy: " + container["name"])
         print()
         command = ["docker", "exec", container["name"], "/bin/sh", "-c", "service nginx status"]
         result = subprocess.run(command, capture_output=True, text=True)
-        print(result.stdout)
         print()
         if result.returncode == 0:
-            print("\033[92m+-+-+-+-+-+-+\033[0m")
+            print ("Status: running")
+            print()
+            print("\033[92m+-+-+-+-+-+-+-+-+-+-+\033[0m")
             print("Finished. No error")  
-            print("\033[92m+-+-+-+-+-+-+\033[0m")
+            print("\033[92m+-+-+-+-+-+-+-+-+-+-+\033[0m")
             print()
         else:
-            print("\033[91m+-+-+-+-+-+-+-+-+-+-+\033[0m")
+            print ("Status: exited")
+            print()
+            print("\033[91m+-+-+-+-+-+-+-+-+-+-+-+-+-+-+\033[0m")
             print("Attention! Nginx with error.")
-            print("\033[91m+-+-+-+-+-+-+-+-+-+-+\033[0m")
+            print("\033[91m+-+-+-+-+-+-+-+-+-+-+-+-+-+-+\033[0m")
             print()
     
     containerswan = [
         {"name": "nginx-wan"},
     ]
     for container in containerswan:
-        print("Verificando o container do Servidor Proxy: " + "\033[91m"+container["name"]+"\033[0m")
+        print("Verificando o container do Servidor Proxy: " + container["name"])
         print()
         command = ["docker", "exec", container["name"], "/bin/sh", "-c", "service nginx status"]
         result = subprocess.run(command, capture_output=True, text=True)
-        print(result.stdout)
         print()
         if result.returncode == 0:
-            print("\033[92m+-+-+-+-+-+-+\033[0m")
+            print ("Status: running")
+            print()
+            print("\033[92m+-+-+-+-+-+-+-+-+-+-+\033[0m")
             print("Finished. No error")  
-            print("\033[92m+-+-+-+-+-+-+\033[0m")
+            print("\033[92m+-+-+-+-+-+-+-+-+-+-+\033[0m")
             print()
         else:
-            print("\033[91m+-+-+-+-+-+-+-+-+-+-+\033[0m")
+            print ("Status: exited")
+            print()
+            print("\033[91m+-+-+-+-+-+-+-+-+-+-+-+-+-+-+\033[0m")
             print("Attention! Nginx with error.")
-            print("\033[91m+-+-+-+-+-+-+-+-+-+-+\033[0m")
+            print("\033[91m+-+-+-+-+-+-+-+-+-+-+-+-+-+-+\033[0m")
             print()
 
 # def stop_docker_container():
