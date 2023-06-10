@@ -1,11 +1,6 @@
 import subprocess
 import sys
 
-def stop_docker_container():
-    containers = ["veridis-bindm", "veridis-binds", "nginx-lan", "nginx-wan"]
-    for container in containers:
-        subprocess.run(["docker", "stop", container])
-
 def test_docker_dns():
     containers = [
     {"name": "veridis-bindm"},
@@ -83,17 +78,21 @@ def test_docker_nginx():
             print()
             sys.exit(1)
 
+def stop_docker_container():
+    containers = ["veridis-bindm", "veridis-binds", "nginx-lan", "nginx-wan"]
+    for container in containers:
+        subprocess.run(["docker", "stop", container])
+
+def remove_docker_container():
+    containers = ["veridis-bindm", "veridis-binds", "nginx-lan", "nginx-wan"]
+    for container in containers:
+        subprocess.run(["docker", "rm", container])
 
 
-# def remove_docker_container():
-#     containers = ["veridis-bindm", "veridis-binds", "nginx-lan", "nginx-wan"]
-#     for container in containers:
-#         subprocess.run(["docker", "rm", container])
 
-
-stop_docker_container()
 test_docker_dns()
 test_docker_nginx()
-# remove_docker_container()
+stop_docker_container()
+remove_docker_container()
 
 
