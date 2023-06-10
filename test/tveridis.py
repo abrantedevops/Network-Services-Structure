@@ -2,30 +2,39 @@ import subprocess
 
 def test_docker_dns():
     containers = [
-        {"name": "veridis-bindm"},
-        {"name": "veridis-binds"}
-    ]
+    {"name": "veridis-bindm"},
+    {"name": "veridis-binds"}
+]
+
     for container in containers:
         print("========================================= BIND9 =========================================")
         print()
-        print("Instalada as dependências no container: " + "\033[91m"+container["name"]+"\033[0m")
-        subprocess.run(["docker", "exec", container["name"], "/bin/sh", "-c", "apt install dnsutils -y"])
-        print("Verificando o container do Servidor DNS: " + "\033[91m"+container["name"]+"\033[0m")
-        command = ["docker", "exec", container["name"], "/bin/sh", "-c", "nslookup app01.abranteme.com.br"]
+        print("Verificando o container do Servidor DNS: " + "\033[91m" + container["name"] + "\033[0m")
+        command = ["docker", "logs", container["name"]]
         result = subprocess.run(command, capture_output=True, text=True)
-        print(result.stdout)
-        print()
-        if result.returncode == 0:
-            print("\033[92m+-+-+-+-+-+-+-+-+-+\033[0m")
-            print("\033[92mFinished. No error\033[0m")  
-            print("\033[92m+-+-+-+-+-+-+-+-+-+\033[0m")
+        logs = result.stdout
+
+        running_index = logs.find("running")
+
+        if running_index != -1:
+            highlighted_logs = (
+                logs[:running_index]
+                + "\033[92m"
+                + logs[running_index : running_index + 7]
+                + "\033[0m"
+                + logs[running_index + 7 :]
+            )
+
+            print("\033[92m+-+-+-+-+-+-+\033[0m")
+            print("Finished. No error")
+            print(highlighted_logs)
+            print("\033[92m+-+-+-+-+-+-+\033[0m")
             print()
         else:
-            print("\033[91m+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-\033[0m")
-            print("\033[91mAttention! BIND9 with error.\033[0m")
-            print("\033[91m+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-\033[0m")
+            print("\033[91m+-+-+-+-+-+-+-+-+-+-+\033[0m")
+            print("Attention! BIND9 with error")
+            print("\033[91m+-+-+-+-+-+-+-+-+-+-+\033[0m")
             print()
-# IMPLEMENTAR OS LOGS DO BIND(9)
 
 def test_docker_nginx():
     containerslan = [
@@ -40,14 +49,14 @@ def test_docker_nginx():
         print(result.stdout)
         print()
         if result.returncode == 0:
-            print("\033[92m+-+-+-+-+-+-+-+-+-+\033[0m")
-            print("\033[92mFinished. No error\033[0m")  
-            print("\033[92m+-+-+-+-+-+-+-+-+-+\033[0m")
+            print("\033[92m+-+-+-+-+-+-+\033[0m")
+            print("Finished. No error")  
+            print("\033[92m+-+-+-+-+-+-+\033[0m")
             print()
         else:
-            print("\033[91m+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-\033[0m")
-            print("\033[91mAttention! Nginx with error.\033[0m")
-            print("\033[91m+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-\033[0m")
+            print("\033[91m+-+-+-+-+-+-+-+-+-+-+\033[0m")
+            print("Attention! Nginx with error.")
+            print("\033[91m+-+-+-+-+-+-+-+-+-+-+\033[0m")
             print()
     
     containerswan = [
@@ -61,14 +70,14 @@ def test_docker_nginx():
         print(result.stdout)
         print()
         if result.returncode == 0:
-            print("\033[92m+-+-+-+-+-+-+-+-+-+\033[0m")
-            print("\033[92mFinished. No error\033[0m")  
-            print("\033[92m+-+-+-+-+-+-+-+-+-+\033[0m")
+            print("\033[92m+-+-+-+-+-+-+\033[0m")
+            print("Finished. No error")  
+            print("\033[92m+-+-+-+-+-+-+\033[0m")
             print()
         else:
-            print("\033[91m+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-\033[0m")
-            print("\033[91mAttention! Nginx with error.\033[0m")
-            print("\033[91m+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-\033[0m")
+            print("\033[91m+-+-+-+-+-+-+-+-+-+-+\033[0m")
+            print("Attention! Nginx with error.")
+            print("\033[91m+-+-+-+-+-+-+-+-+-+-+\033[0m")
             print()
 
 # def stop_docker_container():

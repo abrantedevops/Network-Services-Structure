@@ -89,6 +89,9 @@ jobs:
 
             - name: Push Docker images
               run: |
-                docker tag network_services_structure:veridis-bind-master abrantedevops/network_services_structure:veridis-bind-master
-                docker push abrantedevops/network_services_structure:veridis-bind-master
+                docker push abrantedevops/abrantedevops/network_services_structure:veridis-bind-master
+                docker push abrantedevops/abrantedevops/network_services_structure:veridis-bind-slave
+                docker push abrantedevops/abrantedevops/network_services_structure:veridis-nginx-lan
+                docker push abrantedevops/abrantedevops/network_services_structure:veridis-nginx-wan
+                docker push abrantedevops/abrantedevops/network_services_structure:statusquo-apache
                 
