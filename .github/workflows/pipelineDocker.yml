@@ -60,7 +60,7 @@ jobs:
             - name: Check Test Results
               run: |
                 if [ $? -ne 0 ]; then
-                  echo "Um ou mais testes falharam. Encerrando o workflow."
+                  echo "One or more tests failed. Closing the Workflow."
                   exit 1
                 fi
 
