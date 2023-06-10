@@ -7,7 +7,7 @@ def test_docker_web():
     for container in containers:
         print("========================================= APACHE =========================================")
         print()
-        print("Verificando o container do Servidor Web: " + "\033[91m"+container["name"]+"\033[0m")
+        print("Verificando o container do Servidor Web: " + container["name"])
         print()
         command = ["docker", "exec", container["name"], "/bin/sh", "-c", "service apache2 status"]
         result = subprocess.run(command, capture_output=True, text=True)
