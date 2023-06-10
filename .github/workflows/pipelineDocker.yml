@@ -34,12 +34,23 @@ jobs:
             - name: Checkout repository
               uses: actions/checkout@v3
 
-            - name: Test 
-              run: | 
-                images=("veridis-bind-master" "veridis-bind-slave" "veridis-nginx-lan" "veridis-nginx-wan" "statusquo-apache")
-                for image in "${images[@]}"; do
-                docker run --rm -d --name "$image" "abrantedevops/network_services_structure:$image"
-                done
+            - name: Run Dockerfile
+              run: |
+                docker-compose -f ./df-compose/veridis/docker-compose.yml up
+                docker-compose -f ./df-compose/statusquo/docker-compose.yml up
+
+            - name: Setup Python Version
+              uses: actions/setup-python@v2
+              with:
+                python-version: 3.8
+              
+            - name: Install Python dependencies
+              run: python -m pip install --upgrade pip requests
+              
+            - name: Execute Python Script
+              run: |
+                python ./test/tveridis.py
+                python ./test/tstatusquo.py
 
     Vulnerability:
         needs: Test
@@ -78,8 +89,9 @@ jobs:
 
             - name: Push Docker images
               run: |
-                images=("veridis-bind-master" "veridis-bind-slave" "veridis-nginx-lan" "veridis-nginx-wan" "statusquo-apache")
-                for image in "${images[@]}"; do
-                docker build -t "abrantedevops/network_services_structure:$image" "./isolated_environment/imagem_for_dockerhub_veridis/$image"
-                docker push "abrantedevops/network_services_structure:$image"
-                done
+                docker push abrantedevops/network_services_structure:veridis-bind-master
+                docker push abrantedevops/network_services_structure:veridis-bind-slave
+                docker push abrantedevops/network_services_structure:veridis-nginx-lan
+                docker push abrantedevops/network_services_structure:veridis-nginx-wan
+                docker push abrantedevops/network_services_structure:statusquo-apache
+                
