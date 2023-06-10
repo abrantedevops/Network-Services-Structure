@@ -1,11 +1,12 @@
 import subprocess
+import sys
 
 def test_docker_web():
     containers = [
         {"name": "statusquo-apache"},
     ]
+    print("========================================= APACHE =========================================")
     for container in containers:
-        print("========================================= APACHE =========================================")
         print()
         print("Verificando o container do Servidor Web: " + container["name"])
         print()
@@ -26,7 +27,7 @@ def test_docker_web():
             print("Attention! Apache with error.")
             print("\033[91m+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+\033[0m")
             print()
-      
+            sys.exit(1)
 
 # def stop_docker_container():
 #     containers = ["statusquo-apache"]
