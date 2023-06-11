@@ -106,10 +106,10 @@ jobs:
               uses: peter-evans/create-pull-request@v3
               with:
                 token: ${{ secrets.GITHUB_TOKEN }}
-                branch: dev
+                branch: master
                 title: Automated pull request
                 body: This pull request is automatically generated after successful jobs.
-                base: master
+                base: dev
                 
 
 

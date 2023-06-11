@@ -52,6 +52,28 @@ A estrutura do tutorial envolvendo o Vagrant e o Ansible e o Docker está ilustr
 
 <p align="center"><img src="./img/devops_drawio.png" alt="Scope" style="max-width:100%"></p>
 
+<h2>Pipeline CI/CD</h2>
+
+Para a criação do pipeline CI/CD foi utilizado o GitHub Actions, que é uma ferramenta de integração e entrega contínua incorporado ao GitHub. A branch "dev" foi configurada para ser a branch de teste, onde a build das imagens Docker (CI) são realizadas e encaminhadas ao registry (CD). A pipeline foi configurada para executar as seguintes etapas:
+
+- Build das imagens Docker: É responsável por construir a imagem docker do servodpr DNS Primário e Secundário, do servidor proxy Nginx para requisições LAN e WAN e por fim do servidor web Apache que contém os virtual hosts para os serviços app01 e app02.
+
+- Testes dos Serviços: São realizados com o auxílio de scripts que verificam se os serviços do BIND9, Nginx e Apache estão ativos e respondendo corretamente através dos containers criados a partir das imagens Docker da etapa anterior.
+
+- Vulnerabilidades: Após os testes é iniciado a análise de vulnerabilidades com o auxílio da ferramenta Trivy, que é um scanner de código aberto para imagens e artefatos de contêiner.
+
+- Push: Após a conclusão das etapas anteriores, as imagens são encaminhadas ao registry Dockerhub para que possam ser baixadas e utilizadas no tutorial.
+
+
+
+<p align="center"><img src="./img/pipelinectionss.png" alt="Scope" style="max-width:100%"></p>
+
+
+
+
+
+
+
 <h2>Pré-requisitos e Indicações</h2>
 
 - Antes de começar, o Vagrantfile utiliza o Provider VirtualBox, portanto é necessário que o mesmo esteja instalado em sua máquina. Caso não tenha, acesse o link abaixo e siga as instruções de instalação: [VirtualBox](https://www.virtualbox.org/wiki/Downloads)
@@ -113,7 +135,8 @@ $ vagrant destroy -f
 - [Apache](https://httpd.apache.org/)
 - [Bind9](https://www.isc.org/bind/)
 - [Images Overview](https://bell-sw.com/blog/bellsoft-s-docker-hub-images-overview/)
-
+- [Trivy](https://trivy.dev/)
+- [GitHub Actions](https://github.com/features/actions)
 
 
 <h2>Licença</h2>
