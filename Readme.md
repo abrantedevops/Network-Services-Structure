@@ -65,9 +65,7 @@ Para a criação do pipeline CI/CD foi utilizado o GitHub Actions, que é uma fe
 - Push: Após a conclusão das etapas anteriores, as imagens são encaminhadas ao registry Dockerhub para que possam ser baixadas e utilizadas no tutorial.
 
 
-
 <p align="center"><img src="./img/pipelinections.png" alt="Scope" style="max-width:100%"></p>
-
 
 
 
