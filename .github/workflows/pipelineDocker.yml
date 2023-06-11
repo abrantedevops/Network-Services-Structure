@@ -101,15 +101,6 @@ jobs:
                 docker push ${{ env.NGINXW }}
                 docker build -t ${{ env.APACHE }} ${{ env.path_apache }}
                 docker push ${{ env.APACHE }}
-
-            - name: Create Pull Request
-              uses: peter-evans/create-pull-request@v3
-              with:
-                token: ${{ secrets.GITHUB_TOKEN }}
-                branch: master
-                title: Automated pull request
-                body: This pull request is automatically generated after successful jobs.
-                base: dev
                 
 
 

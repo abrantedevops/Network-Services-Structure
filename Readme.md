@@ -66,9 +66,7 @@ Para a criação do pipeline CI/CD foi utilizado o GitHub Actions, que é uma fe
 
 
 
-<p align="center"><img src="./img/pipelinectionss.png" alt="Scope" style="max-width:100%"></p>
-
-
+<p align="center"><img src="./img/pipelinections.png" alt="Scope" style="max-width:100%"></p>
 
 
 
