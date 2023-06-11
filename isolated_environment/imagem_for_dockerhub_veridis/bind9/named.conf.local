@@ -1,0 +1,31 @@
+//
+// Do any local configuration here
+//
+
+// Consider adding the 1918 zones here, if they are not used in your
+// organization
+//include "/etc/bind/zones.rfc1918";
+
+acl "rede-interna" { 192.168.10.0/24; };
+
+view "interna" {
+        match-clients { "rede-interna"; };
+        recursion yes;
+        zone "abranteme.com.br" {
+                        type master;
+                        file "/etc/bind/db.abranteme.com.br-lan";
+        };
+        include "/etc/bind/named.conf.default-zones";
+};
+
+view "externa" {
+        match-clients { any; };
+        recursion no;
+        zone "abranteme.com.br" {
+                        type master;
+                        file "/etc/bind/db.abranteme.com.br-wan";
+                        allow-transfer { 203.0.113.5; };
+                        notify yes;
+                        also-notify { 203.0.113.5; };
+        };
+};

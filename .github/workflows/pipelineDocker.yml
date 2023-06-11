@@ -1,0 +1,111 @@
+name: Build/Test-Services/Scan/Push Docker Images
+
+on:
+  push:
+    branches:
+      - dev
+
+env:
+  DNSM: abrantedevops/network_services_structure:veridis-bind-master
+  DNSL: abrantedevops/network_services_structure:veridis-bind-slave
+  NGINXL: abrantedevops/network_services_structure:veridis-nginx-lan
+  NGINXW: abrantedevops/network_services_structure:veridis-nginx-wan
+  APACHE: abrantedevops/network_services_structure:statusquo-apache
+  path_master: ./isolated_environment/imagem_for_dockerhub_veridis/bind9
+  path_slave: ./isolated_environment/imagem_for_dockerhub_veridis/bind9/slave
+  path_nginx_lan: ./isolated_environment/imagem_for_dockerhub_veridis/nginx/lan
+  path_nginx_wan: ./isolated_environment/imagem_for_dockerhub_veridis/nginx/wan
+  path_apache: ./isolated_environment/imagem_for_dockerhub_statusquo/apache
+
+
+jobs:
+    Build:
+        runs-on: ubuntu-latest
+        steps:
+            - name: Checkout repository
+              uses: actions/checkout@v3
+
+            - name: Build Docker images
+              run: |
+                docker build -t ${{ env.DNSM }} ${{ env.path_master }}
+                docker build -t ${{ env.DNSL }} ${{ env.path_slave }}
+                docker build -t ${{ env.NGINXL }} ${{ env.path_nginx_lan }}
+                docker build -t ${{ env.NGINXW }} ${{ env.path_nginx_wan }}
+                docker build -t ${{ env.APACHE }} ${{ env.path_apache }}
+        
+    Test-Services:
+        needs: Build
+        runs-on: ubuntu-latest
+        steps:
+            - name: Checkout repository
+              uses: actions/checkout@v3
+
+            - name: Run Dockerfile
+              run: |
+                docker-compose -f ./df-compose/veridis/docker-compose.yml up -d
+                docker-compose -f ./df-compose/statusquo/docker-compose.yml up -d
+
+            - name: Setup Python Version
+              uses: actions/setup-python@v2
+              with:
+                python-version: 3.8
+
+            - name: Execute Python Script - Veridis
+              run: python ./test/tveridis.py
+
+            - name: Execute Python Script - Statusquo
+              run: python ./test/tstatusquo.py
+
+    Vulnerabilities:
+        needs: Test-Services
+        runs-on: ubuntu-latest
+        steps:
+            - name: Checkout repository
+              uses: actions/checkout@v3
+
+            - name: Install Trivy
+              run: |
+                wget https://github.com/aquasecurity/trivy/releases/download/v0.42.1/trivy_0.42.1_Linux-64bit.deb
+                sudo dpkg -i trivy_0.42.1_Linux-64bit.deb
+
+            - name: Scan Docker images
+              run: |
+                trivy image ${{ env.DNSM }}
+                trivy image ${{ env.DNSL }}
+                trivy image ${{ env.NGINXL }}
+                trivy image ${{ env.NGINXW }}
+                trivy image ${{ env.APACHE }}
+        
+    Push-Images:
+        needs: Vulnerabilities
+        runs-on: ubuntu-latest
+        steps:
+            - name: Checkout repository
+              uses: actions/checkout@v3
+        
+            - name: Login to DockerHub
+              uses: docker/login-action@v2.2.0
+              with:
+                username: ${{ secrets.USER }}
+                password: ${{ secrets.PASS }}
+        
+            - name: Build and Push
+              run: |
+                docker build -t ${{ env.DNSM }} ${{ env.path_master }}
+                docker push ${{ env.DNSM }}
+                docker build -t ${{ env.DNSL }} ${{ env.path_slave }}
+                docker push ${{ env.DNSL }}
+                docker build -t ${{ env.NGINXL }} ${{ env.path_nginx_lan }}
+                docker push ${{ env.NGINXL }}
+                docker build -t ${{ env.NGINXW }} ${{ env.path_nginx_wan }}
+                docker push ${{ env.NGINXW }}
+                docker build -t ${{ env.APACHE }} ${{ env.path_apache }}
+                docker push ${{ env.APACHE }}
+                
+
+
+
+
+
+                
+                

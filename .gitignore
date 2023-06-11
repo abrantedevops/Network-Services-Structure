@@ -1,8 +1,8 @@
 # Dependency directories
 node_modules/
-isolated_environment/
 jspm_packages/
 .vagrant/
+
 
 
 # IDE - VSCode

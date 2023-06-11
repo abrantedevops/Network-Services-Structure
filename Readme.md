@@ -15,8 +15,6 @@
 </p>
 
 
-
-
 <p align="center"><img src="./img/bellsoft-s-docker-hub-images-overview.webp" alt="Scope" style="max-width:100%"></p>
 
 Infraestrutura como código (IaC) é uma prática de desenvolvimento de software que se enquadra na abordagem DevOps. Ela envolve a automação e gerenciamento da infraestrutura de um sistema de computador usando código, assim, as tecnologias empregadas neste tutorial, em conjunto o Vagrant, o Ansible e o Docker fornecem uma poderosa combinação de ferramentas para a criação, provisionamento e implantação de infraestrutura e aplicativos como código. Eles permitem definir, compartilhar e gerenciar toda a pilha de infraestrutura, desde a configuração do sistema até a execução de aplicativos, de forma automatizada e escalável. 
@@ -53,6 +51,26 @@ Em seguida, foram criados RAID para cada partição. Por fim, foi criado um LVM 
 A estrutura do tutorial envolvendo o Vagrant e o Ansible e o Docker está ilustrada na imagem abaixo. Foram configurados três máquinas virtuais a partir do arquivo vagrantfile, sendo elas: Server-Veridis, Server-Statusquo e Client-Host. Em seguida, para cada uma das máquinas virtuais o ansible é inicializado a partir dos arquivos de configuração playbook.yml, que por sua vez envia o arquivo docker-compose.yml para dentro de cada uma das VMs. Por fim, para as VMs Server-Veridis e Server-Statusquo o docker é utilizado para a criação de containers dos serviços de DNS, Nginx e Apache a partir das imagens que foram anteriormente criadas mediante modificação de acordo com as necessidades para atender os requisitos do tutorial. A VM do Cliente-Host é utilizada para testar a parte do acesso remoto ao servidor Veridis, bem como o serviço de SFTP.
 
 <p align="center"><img src="./img/devops_drawio.png" alt="Scope" style="max-width:100%"></p>
+
+<h2>Pipeline CI/CD</h2>
+
+Para a criação do pipeline CI/CD foi utilizado o GitHub Actions, que é uma ferramenta de integração e entrega contínua incorporado ao GitHub. A branch "dev" foi configurada para ser a branch de teste, onde a build das imagens Docker (CI) são realizadas e encaminhadas ao registry (CD). A pipeline foi configurada para executar as seguintes etapas:
+
+- Build das imagens Docker: É responsável por construir a imagem docker do servodpr DNS Primário e Secundário, do servidor proxy Nginx para requisições LAN e WAN e por fim do servidor web Apache que contém os virtual hosts para os serviços app01 e app02.
+
+- Testes dos Serviços: São realizados com o auxílio de scripts que verificam se os serviços do BIND9, Nginx e Apache estão ativos e respondendo corretamente através dos containers criados a partir das imagens Docker da etapa anterior.
+
+- Vulnerabilidades: Após os testes é iniciado a análise de vulnerabilidades com o auxílio da ferramenta Trivy, que é um scanner de código aberto para imagens e artefatos de contêiner.
+
+- Push: Após a conclusão das etapas anteriores, as imagens são encaminhadas ao registry Dockerhub para que possam ser baixadas e utilizadas no tutorial.
+
+
+
+<p align="center"><img src="./img/pipelinections.png" alt="Scope" style="max-width:100%"></p>
+
+
+
+
 
 <h2>Pré-requisitos e Indicações</h2>
 
@@ -115,7 +133,8 @@ $ vagrant destroy -f
 - [Apache](https://httpd.apache.org/)
 - [Bind9](https://www.isc.org/bind/)
 - [Images Overview](https://bell-sw.com/blog/bellsoft-s-docker-hub-images-overview/)
-
+- [Trivy](https://trivy.dev/)
+- [GitHub Actions](https://github.com/features/actions)
 
 
 <h2>Licença</h2>
