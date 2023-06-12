@@ -45,6 +45,14 @@ jobs:
                 docker-compose -f ./df-compose/veridis/docker-compose.yml up -d
                 docker-compose -f ./df-compose/statusquo/docker-compose.yml up -d
 
+            - name: Test Autentication - Statusquo
+              uses: joonvena/robotframework-docker-action@v1.1
+              with:
+                browser: chrome
+                robot_tests_dir: ./test/resource.robot
+                robot_reports_dir: ./test/
+                robot_runner_image: ppodgorsek/robot-framework:latest
+
             - name: Setup Python Version
               uses: actions/setup-python@v2
               with:

@@ -69,8 +69,6 @@ Para a criação do pipeline CI/CD foi utilizado o GitHub Actions, que é uma fe
 <p align="center"><img src="./img/pipelinections.png" alt="Scope" style="max-width:100%"></p>
 
 
-
-
 <!-- <h2>Deployment</h2> -->
 
 <!-- A implantação contínua (Watch Tower) das imagens Docker é realizada no servidor Server-Veridis, que foi configurado com o Docker e o Docker Compose. Para isso, é necessário configurar as variáveis de ambiente SSH_HOST, SSH_USERNAME e SSH_PASSWORD no GitHub, que são utilizadas para fazer o login no servidor e executar os comandos de implantação. -->
