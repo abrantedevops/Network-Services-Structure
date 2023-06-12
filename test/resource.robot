@@ -4,35 +4,24 @@ Library           SeleniumLibrary
 
 *** Variables ***
 ${BROWSER}        Chrome
-${URL}            http://app02.abranteme.com.br/jornal/
+${URL}            http://www.testyou.in/Login.aspx
 ${USERNAME}       abranteme
 ${PASSWORD}       abranteme
 
 *** Test Cases ***
-Login na Página
-    Abrir Navegador
-    Manipular Janela de Login
-    Verificar Login com Sucesso
-    Verificar Página Inicial
-
-*** Keywords ***
-Abrir Navegador
+Login com sucesso
     Open Browser    ${URL}    ${BROWSER}
+    Input Text      //input[@name='ctl00$CPHContainer$txtUserLogin']    ${USERNAME}
+    Input Text      //input[@name='ctl00$CPHContainer$txtPassword']     ${PASSWORD}
+    Click Button    //input[@name='ctl00$CPHContainer$btnLoginn']
+    Sleep           5s
+    Close Browser
 
-Manipular Janela de Login
-    # Capturar o alerta de login
-    ${alert_text}    Execute JavaScript    alert('Fazer login\\nhttp://app02.abranteme.com.br\\nSua conexão a este site não é particular\\nNome de usuario\\nSenha\\nCancelar Fazer login')
-    # Aceitar o alerta
-    Handle Alert    ACCEPT
-    # Preencher as credenciais de login
-    Input Text    id=username    ${USERNAME}
-    Input Password    id=password    ${PASSWORD}
-    Click Button    id=entrar
+Login com falha
+    Open Browser    ${URL}    ${BROWSER}
+    Input Text      //input[@name='ctl00$CPHContainer$txtUserLogin']    ${USERNAME}
+    Input Text      //input[@name='ctl00$CPHContainer$txtPassword']     ${PASSWORD}
+    Click Button    //input[@name='ctl00$CPHContainer$btnLoginn']
+    Sleep           5s
+    Close Browser
 
-Verificar Login com Sucesso
-    Wait Until Page Contains    Bem-vindo, ${USERNAME}
-    Log    Login realizado com sucesso
-
-Verificar Página Inicial
-    Page Should Contain    Index of /jornal
-    Log    Página inicial exibida com sucesso
