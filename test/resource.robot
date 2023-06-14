@@ -1,5 +1,5 @@
 *** Settings ***
-Documentation     Testes de login em app02.abranteme.com.br/jornal
+Documentation     Login em app02.abranteme.com.br/jornal
 Library           SeleniumLibrary
 
 *** Variables ***
