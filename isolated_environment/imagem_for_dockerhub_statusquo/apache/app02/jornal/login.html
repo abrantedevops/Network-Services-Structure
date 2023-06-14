@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+    <style>
+      body {
+        font-family: sans-serif;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        margin: 0;
+      }
+      #msg {
+        color: red;
+      }
+      form {
+        width: 300px;
+        text-align: center;
+      }
+      input[type="text"],
+      input[type="password"],
+      input[type="submit"] {
+        display: block;
+        width: 100%;
+        padding: 10px;
+        margin-bottom: 10px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        transition: border-color 0.3s;
+      }
+      input[type="submit"] {
+        background-color: #4CAF50;
+        color: white;
+        cursor: pointer;
+        width: 40%;
+        margin: 0 auto;
+      }
+      input[type="submit"]:hover {
+        background-color: #45a049;
+      }
+      input[type="text"]:focus,
+      input[type="password"]:focus {
+        outline: none;
+        border-color: #4CAF50;
+      }
+    </style>
+</head>
+<body>
+    <form method="POST" action="/login.aspx">
+        <div id="msg"></div>
+        <p>Username: <input type="text" name="my_username"></p>
+        <p>Password: <input type="password" name="my_password"></p>
+        <input type="submit" value="Login">
+      </form>
+      <script>
+        var msg = "";
+        var search = window.location.search;
+        if (search == "?error") {
+          msg = "Usuário e/ou senha inválidos";
+        } else if (search == "?loggedout") {
+          msg = "Logout realizado com sucesso";
+        } else if (search == "?banned") {
+          msg = "Temporariamente banido devido a várias tentativas de login";
+        }
+        document.getElementById("msg").innerText = msg;
+      </script>
+    
+</body>
+</html>

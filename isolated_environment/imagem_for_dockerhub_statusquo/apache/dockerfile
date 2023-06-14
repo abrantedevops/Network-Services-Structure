@@ -17,7 +17,8 @@ RUN mkdir -p /etc/apache2/senhas/app02
 # Copy files
 COPY app01/index.html /dados/www/app01/
 COPY app02/index.html /dados/www/app02/
-COPY app02/hi.txt /dados/www/app02/jornal/
+COPY app02/jornal/hi.txt /dados/www/app02/jornal/
+COPY app02/jornal/login.html /dados/www/app02/
 
 # Create user and password
 RUN htpasswd -c -b /etc/apache2/senhas/app02/abranteme.htpasswd abranteme abranteme 
@@ -26,6 +27,9 @@ RUN htpasswd -c -b /etc/apache2/senhas/app02/abranteme.htpasswd abranteme abrant
 RUN chown -R www-data:www-data /dados/www/app01
 RUN chown -R www-data:www-data /dados/www/app02
 RUN chown -R www-data:www-data /etc/apache2/senhas/app02
+
+# Enable the necessary modules
+RUN a2enmod auth_form request session session_cookie session_crypto
 
 # Enable the necessary sites
 RUN a2ensite app01.abranteme.com.br.conf

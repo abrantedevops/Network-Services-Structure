@@ -1,27 +1,19 @@
 *** Settings ***
-Documentation     Testes de login na página
+Documentation     Testes de login em app02.abranteme.com.br/jornal
 Library           SeleniumLibrary
 
 *** Variables ***
 ${BROWSER}        Chrome
-${URL}            http://www.testyou.in/Login.aspx
+${URL}            http://app02.abranteme.com.br/jornal
 ${USERNAME}       abranteme
 ${PASSWORD}       abranteme
 
 *** Test Cases ***
 Login com sucesso
     Open Browser    ${URL}    ${BROWSER}
-    Input Text      //input[@name='ctl00$CPHContainer$txtUserLogin']    ${USERNAME}
-    Input Text      //input[@name='ctl00$CPHContainer$txtPassword']     ${PASSWORD}
-    Click Button    //input[@name='ctl00$CPHContainer$btnLoginn']
+    Input Text      //input[@name='my_username']    ${USERNAME}
+    Input Text      //input[@name='my_password']     ${PASSWORD}
+    Click Button    //input[@name='my_login']
     Sleep           5s
+    Page Should Contain    Index of /jornal
     Close Browser
-
-Login com falha
-    Open Browser    ${URL}    ${BROWSER}
-    Input Text      //input[@name='ctl00$CPHContainer$txtUserLogin']    ${USERNAME}
-    Input Text      //input[@name='ctl00$CPHContainer$txtPassword']     ${PASSWORD}
-    Click Button    //input[@name='ctl00$CPHContainer$btnLoginn']
-    Sleep           5s
-    Close Browser
-
