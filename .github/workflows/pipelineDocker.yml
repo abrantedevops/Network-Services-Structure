@@ -47,7 +47,10 @@ jobs:
 
             - name: Test Autentication - Statusquo
               run: |
-                docker run -v `pwd`/test:/opt/robotframework/tests:Z ppodgorsek/robot-framework:latest
+                sudo docker network create --subnet=192.168.10.0/24 --gateway=192.168.10.1 redelan
+                sudo docker network create --subnet=203.0.113.0/24 --gateway=203.0.113.1 redewa
+                docker run --network redelan --ip 192.168.10.10 -v `pwd`/test:/opt/robotframework/tests:Z ppodgorsek/robot-framework:latest
+
 
             - name: Setup Python Version
               uses: actions/setup-python@v2
