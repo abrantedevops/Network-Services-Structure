@@ -46,12 +46,8 @@ jobs:
                 docker-compose -f ./df-compose/statusquo/docker-compose.yml up -d
 
             - name: Test Autentication - Statusquo
-              uses: joonvena/robotframework-docker-action@v1.1
-              with:
-                browser: chrome
-                robot_tests_dir: /test/resource.robot
-                robot_reports_dir: /test/reports
-                robot_runner_image: ppodgorsek/robot-framework:latest
+              run: |
+                docker run --user $(id -u):$(id -g) -v /test/reports:/opt/robotframework/reports:Z -v /test:/opt/robotframework/tests:Z ppodgorsek/robot-framework:latest
 
             - name: Setup Python Version
               uses: actions/setup-python@v2
