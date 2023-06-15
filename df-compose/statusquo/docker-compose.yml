@@ -13,6 +13,6 @@ services:
     image: ppodgorsek/robot-framework:latest
     container_name: robot-framework
     volumes:
-      -`pwd`/test:/opt/robotframework/tests:Z
+      - /test:/opt/robotframework/tests:Z
     environment:
       - BROWSER=chrome
