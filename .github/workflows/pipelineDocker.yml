@@ -43,7 +43,7 @@ jobs:
             - name: Run Dockerfile
               run: |
                 docker-compose -f ./df-compose/veridis/docker-compose.yml up -d
-                docker-compose -f ./df-compose/statusquo/docker-compose.yml up
+                docker-compose -f ./df-compose/statusquo/docker-compose.yml up -d
 
             - name: Checkout repository
               uses: actions/checkout@v3
