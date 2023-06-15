@@ -11,12 +11,13 @@ env:
   NGINXL: abrantedevops/network_services_structure:veridis-nginx-lan
   NGINXW: abrantedevops/network_services_structure:veridis-nginx-wan
   APACHE: abrantedevops/network_services_structure:statusquo-apache
+  ROBOT: test
   path_master: ./isolated_environment/imagem_for_dockerhub_veridis/bind9
   path_slave: ./isolated_environment/imagem_for_dockerhub_veridis/bind9/slave
   path_nginx_lan: ./isolated_environment/imagem_for_dockerhub_veridis/nginx/lan
   path_nginx_wan: ./isolated_environment/imagem_for_dockerhub_veridis/nginx/wan
   path_apache: ./isolated_environment/imagem_for_dockerhub_statusquo/apache
-
+  path_robot: ./isolated_environment/imagem_for_dockerhub_statusquo/robot
 
 jobs:
     Build:
@@ -40,7 +41,7 @@ jobs:
             - name: Checkout repository
               uses: actions/checkout@v3
 
-            - name: Run Dockerfile
+            - name: Run Docker Compose
               run: |
                 docker-compose -f ./df-compose/veridis/docker-compose.yml up -d
                 docker-compose -f ./df-compose/statusquo/docker-compose.yml up -d
@@ -50,7 +51,8 @@ jobs:
 
             - name: Run test veridis
               run: |
-                docker run --name robot-framework -e BROWSER=chrome -v `pwd`/test/:/opt/robotframework/tests/teste.robot:Z ppodgorsek/robot-framework:latest
+                docker build -t ${{ env.ROBOT }} ${{ env.path_robot }}
+                docker run -e BROWSER=chrome ppodgorsek/robot-framework:latest
 
 
             - name: Setup Python Version

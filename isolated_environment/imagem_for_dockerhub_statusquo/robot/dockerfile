@@ -1,0 +1,3 @@
+FROM ppodgorsek/robot-framework:latest
+
+COPY resource.robot /opt/robotframework/tests/
