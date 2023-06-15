@@ -45,6 +45,14 @@ jobs:
                 docker-compose -f ./df-compose/veridis/docker-compose.yml up -d
                 docker-compose -f ./df-compose/statusquo/docker-compose.yml up
 
+            - name: Checkout repository
+              uses: actions/checkout@v3
+
+            - name: Run test veridis
+              run: |
+                docker run --name robot-framework -e BROWSER=chrome -v /test/resource.robot:/opt/robotframework/tests/teste.robot:Z ppodgorsek/robot-framework:latest
+
+
             - name: Setup Python Version
               uses: actions/setup-python@v2
               with:

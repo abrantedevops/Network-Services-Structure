@@ -9,10 +9,4 @@ services:
     ports:
       - 8000:8000
 
-  robot-framework:
-    image: ppodgorsek/robot-framework:latest
-    container_name: robot-framework
-    volumes:
-      - ./:/opt/robotframework/tests:Z
-    environment:
-      - BROWSER=chrome
+
