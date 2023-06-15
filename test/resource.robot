@@ -1,5 +1,5 @@
 *** Settings ***
-Documentation     Login em app02.abranteme.com.br/jornal
+Documentation     Teste de Login em app02.abranteme.com.br/jornal
 Library           SeleniumLibrary
 
 *** Variables ***
@@ -9,7 +9,7 @@ ${USERNAME}       abranteme
 ${PASSWORD}       abranteme
 
 *** Test Cases ***
-Login com sucesso
+Verificação em Andamento
     Open Browser    ${URL}    ${BROWSER}
     Input Text      //input[@name='my_username']    ${USERNAME}
     Input Text      //input[@name='my_password']     ${PASSWORD}

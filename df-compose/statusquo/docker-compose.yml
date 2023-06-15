@@ -8,3 +8,11 @@ services:
     container_name: statusquo-apache
     ports:
       - 8000:8000
+
+  robot-framework:
+    image: ppodgorsek/robot-framework:latest
+    container_name: robot-framework
+    volumes:
+      - ./test:/opt/robotframework/tests:Z
+    environment:
+      - BROWSER=chrome
