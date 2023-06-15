@@ -50,7 +50,7 @@ jobs:
 
             - name: Run test veridis
               run: |
-                docker run --name robot-framework -e BROWSER=chrome -v /test/resource.robot:/opt/robotframework/tests/teste.robot:Z ppodgorsek/robot-framework:latest
+                docker run --name robot-framework -e BROWSER=chrome -v `pwd`/test/:/opt/robotframework/tests/teste.robot:Z ppodgorsek/robot-framework:latest
 
 
             - name: Setup Python Version
