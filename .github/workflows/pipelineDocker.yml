@@ -11,11 +11,13 @@ env:
   NGINXL: abrantedevops/network_services_structure:veridis-nginx-lan
   NGINXW: abrantedevops/network_services_structure:veridis-nginx-wan
   APACHE: abrantedevops/network_services_structure:statusquo-apache
+  ROBOT: abrantedevops/network_services_structure:statusquo-robot
   path_master: ./isolated_environment/imagem_for_dockerhub_veridis/bind9
   path_slave: ./isolated_environment/imagem_for_dockerhub_veridis/bind9/slave
   path_nginx_lan: ./isolated_environment/imagem_for_dockerhub_veridis/nginx/lan
   path_nginx_wan: ./isolated_environment/imagem_for_dockerhub_veridis/nginx/wan
   path_apache: ./isolated_environment/imagem_for_dockerhub_statusquo/apache
+  path_robot: ./isolated_environment/imagem_for_dockerhub_statusquo/robot
 
 
 jobs:
@@ -45,6 +47,13 @@ jobs:
                 docker-compose -f ./df-compose/veridis/docker-compose.yml up -d
                 docker-compose -f ./df-compose/statusquo/docker-compose.yml up -d
 
+            - name: Build Docker image Robot Framework
+              run: |
+                docker build -t ${{ env.ROBOT }} ${{ env.path_robot }}
+
+            - name: Docker run Robot Framework
+              run: |
+                docker run -v ${{ github.workspace }}/test:/opt/robotframework/tests ${{ env.ROBOT }}
             
             - name: Setup Python Version
               uses: actions/setup-python@v2
