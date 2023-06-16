@@ -53,7 +53,7 @@ jobs:
 
             - name: Docker run Robot Framework
               run: |
-                docker run -v ${{ github.workspace }}/test:/opt/robotframework/tests ${{ env.ROBOT }}
+                docker run -d statusquo-robot -v ${{ env.path_robot }}/:/opt/robotframework/tests:Z -e BROWSER=chrome -p 8080:8080 ${{ env.ROBOT }}
             
             - name: Setup Python Version
               uses: actions/setup-python@v2
