@@ -46,15 +46,8 @@ jobs:
             - name: Run Docker Compose for Test
               run: |
                 docker-compose -f ./df-compose/veridis/docker-compose.yml up -d
-                docker-compose -f ./df-compose/statusquo/docker-compose.yml up -d
+                docker-compose -f ./df-compose/statusquo/docker-compose.yml up
 
-            - name: Robot Framework - Host Verification
-              run: |
-                sleep 5
-                docker logs veridis-bindm
-                docker logs statusquo-robot
-
-            
             - name: Setup Python Version
               uses: actions/setup-python@v2
               with:
