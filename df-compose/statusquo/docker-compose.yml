@@ -15,7 +15,7 @@ services:
     ports:
       - 8080:8080
     volumes:
-      - ./isolated_environment/imagem_for_dockerhub_statusquo/robot:/opt/robotframework/tests:Z
+      - ./isolated_environment/imagem_for_dockerhub_statusquo/robot/resource.robot:/opt/robotframework/tests:Z
     depends_on:
       - statusquo-apache
 
