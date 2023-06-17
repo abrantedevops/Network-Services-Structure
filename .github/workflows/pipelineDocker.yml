@@ -35,6 +35,7 @@ jobs:
                 docker build -t ${{ env.NGINXW }} ${{ env.path_nginx_wan }}
                 docker build -t ${{ env.APACHE }} ${{ env.path_apache }}
                 docker build -t ${{ env.ROBOT }} ${{ env.path_robot }}
+
         
     Test-Services:
         needs: Build
@@ -48,11 +49,18 @@ jobs:
                 docker-compose -f ./df-compose/veridis/docker-compose.yml up -d
                 docker-compose -f ./df-compose/statusquo/docker-compose.yml up -d
 
-            - name: Robot Framework - Host Verification
-              run: |
-                sleep 5
-                docker logs statusquo-robot
+            # - name: Build Docker image Robot Framework
+            #   run: |
+            #     docker build -t ${{ env.ROBOT }} ${{ env.path_robot }}
 
+            - name: Docker run Robot Framework
+              run: |
+                docker run -d statusquo-robot -v ${{ env.path_robot }}/:/opt/robotframework/tests:Z -e BROWSER=chrome -p 8080:8080 ${{ env.ROBOT }}
+
+            - name: Run logs Robot Framework
+              run: |
+                docker logs statusquo-robot
+            
             - name: Setup Python Version
               uses: actions/setup-python@v2
               with:
