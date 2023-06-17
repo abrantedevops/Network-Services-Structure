@@ -9,13 +9,13 @@ services:
     ports:
       - 8000:8000
 
-  # robot:
-  #   image: abrantedevops/network_services_structure:statusquo-robot
-  #   container_name: statusquo-robot
-  #   ports:
-  #     - 8080:8080
-  #   volumes:
-  #     - ./isolated_environment/imagem_for_dockerhub_statusquo/robot/resource.robot:/opt/robotframework/tests:Z
-  #   depends_on:
-  #     - statusquo-apache
+  robot:
+    image: abrantedevops/network_services_structure:statusquo-robot
+    container_name: statusquo-robot
+    ports:
+      - 8080:8080
+    volumes:
+      - ./test/:/opt/robotframework/tests:Z
+    depends_on:
+      - statusquo-apache
 
