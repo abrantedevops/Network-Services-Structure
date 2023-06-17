@@ -34,6 +34,7 @@ jobs:
                 docker build -t ${{ env.NGINXL }} ${{ env.path_nginx_lan }}
                 docker build -t ${{ env.NGINXW }} ${{ env.path_nginx_wan }}
                 docker build -t ${{ env.APACHE }} ${{ env.path_apache }}
+                docker build -t ${{ env.ROBOT }} ${{ env.path_robot }}
         
     Test-Services:
         needs: Build
@@ -50,7 +51,9 @@ jobs:
             - name: Robot Framework - Host Verification
               run: |
                 sleep 5
+                docker logs veridis-bindm
                 docker logs statusquo-robot
+
             
             - name: Setup Python Version
               uses: actions/setup-python@v2
@@ -82,6 +85,7 @@ jobs:
                 trivy image ${{ env.NGINXL }}
                 trivy image ${{ env.NGINXW }}
                 trivy image ${{ env.APACHE }}
+                trivy image ${{ env.ROBOT }}
         
     Push-Images:
         needs: Vulnerabilities
@@ -108,6 +112,8 @@ jobs:
                 docker push ${{ env.NGINXW }}
                 docker build -t ${{ env.APACHE }} ${{ env.path_apache }}
                 docker push ${{ env.APACHE }}
+                docker build -t ${{ env.ROBOT }} ${{ env.path_robot }}
+                docker push ${{ env.ROBOT }}
                 
 
 
