@@ -14,8 +14,6 @@ services:
     container_name: statusquo-robot
     ports:
       - 8080:8080
-    environment:
-      - ROBOT_CONFIG=/opt/robotframework/tests/resource.robot
     volumes:
       - ./test/:/opt/robotframework/tests:Z
     depends_on:

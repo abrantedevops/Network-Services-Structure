@@ -1,5 +1,6 @@
 FROM ppodgorsek/robot-framework:latest
 
-ENV ROBOT_CONFIG /opt/robotframework/tests/resource.robot
+#COPY resource.robot /opt/robotframework/bin/tests:Z
 
 EXPOSE 8080
+
