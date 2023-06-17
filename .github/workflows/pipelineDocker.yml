@@ -47,7 +47,7 @@ jobs:
             - name: Run Docker Compose for Test
               run: |
                 docker-compose -f ./df-compose/veridis/docker-compose.yml up -d
-                docker-compose -f ./df-compose/statusquo/docker-compose.yml up
+                docker-compose -f ./df-compose/statusquo/docker-compose.yml up -d
                 docker logs statusquo-robot
 
             - name: Run logs Robot Framework
