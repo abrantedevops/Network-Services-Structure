@@ -105,7 +105,7 @@ sftp jornalista@10.0.128.1
 
 ```bash
 # Clone este repositório
-$ git clone https://github.com/abrantedevops/-Network-Services-Structure.git
+$ git clone https://github.com/abrantedevops/Network-Services-Structure.git
 
 # Acesse a pasta no terminal/cmd em que está o arquivo Vagrantfile
 $ cd detools
@@ -135,6 +135,7 @@ $ vagrant destroy -f
 - [Images Overview](https://bell-sw.com/blog/bellsoft-s-docker-hub-images-overview/)
 - [Trivy](https://trivy.dev/)
 - [GitHub Actions](https://github.com/features/actions)
+- [Robot Framework](https://robotframework.org/)
 
 
 <h2>Licença</h2>
