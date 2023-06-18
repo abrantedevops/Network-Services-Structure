@@ -42,6 +42,9 @@ Em seguida, foram criados RAID para cada partição. Por fim, foi criado um LVM 
 
 - Para o Serviço WEB foi utilizado no Server-Veridis o Nginx como Proxy WEB e Load Balancer para os serviços. A comunicação entre cliente e Nginx (Internet - Interface WAN) obrigatoriamente via HTTPS, e entre Nginx e Apache apenas HTTP. A configuração do Apache (Server-Statusquo) foi realizada com os seguintes requisitos: Atendimento de requisições na porta 8000, Impedimento de listagem de conteúdo de diretórios pelo acesso WEB, Não permitir criação de links simbólicos, Configuração de 2 virtual hosts: app01.abranteme.com.br: Diretório do site: /dados/www/app01, Adição de arquivo index.html para testes do "App01", app02.abranteme.com.br: Diretório do site: /dados/www/app02, Adição de arquivo index.html para testes do "App02", Acesso com autenticação do usuário "jornalista" ao diretório para obtenção dos arquivos postados, Leitura do conteúdo do diretório do serviço SFTP (/dados/jornal) pelo Apache.
 
+- Ao acessar app02.abranteme.com.br/jornal, com usuário e senha "abranteme"  é possível ter acesso aos arquivos de log de teste da autenticação do usuário. Esse diretório está localizado no container statusquo-apache em /dados/www/app02/jornal, enquanto que os arquivos de logs estão sendo compartilhados a partir de um volume criado via docker-compose na VM Server-statusquo no diretórior /home/vagrant/reports
+
+
 - Para o Serviço SFTP foi configurado o servidor OpenSSH para atender requisições SFTP na porta 22, com os seguintes requisitos: Criação de usuário "jornalista" com acesso ao diretório /dados/jornal.
 
 
@@ -65,7 +68,6 @@ Para a criação do pipeline CI/CD foi utilizado o GitHub Actions, que é uma fe
 - Push: Após a conclusão das etapas anteriores, as imagens são encaminhadas ao registry Dockerhub para que possam ser baixadas e utilizadas no tutorial.
 
 
-
 <p align="center"><img src="./img/pipelinections.png" alt="Scope" style="max-width:100%"></p>
 
 
@@ -76,32 +78,7 @@ Para a criação do pipeline CI/CD foi utilizado o GitHub Actions, que é uma fe
 
 <h2>Pré-requisitos e Indicações</h2>
 
-- Antes de começar, o Vagrantfile utiliza o Provider VirtualBox, portanto é necessário que o mesmo esteja instalado em sua máquina. Caso não tenha, acesse o link abaixo e siga as instruções de instalação: [VirtualBox](https://www.virtualbox.org/wiki/Downloads)
-
-- Após todo o processo de provisionamento finalizar, para acessar o servidor Veridis, Statusquo e o Client-Host a partir da máquina real, utilize os seguintes comandos:
-
-```bash
-vagrant ssh veridis
-vagrant ssh statusquo
-vagrant ssh client
-```
-
-
-- Para o acesso remoto ao servidor Veridis foi criado um par de chaves de criptografia assimétrica, logo de dentro da VM Client-Host alterne para o usuário suporte e acesse o servidor Veridis com o comando abaixo:
-
-```bash
-su suporte
-passord: 1234
-ssh suporte@10.0.128.1
-```
-
-- Do mesmo modo, para testar o serviço SFTP, pode ser utilizado o comando abaixo a partir da VM Client-Host:
-
-```bash
-su jornalista
-password: 1234
-sftp jornalista@10.0.128.1
-```
+- Antes de começar, é necessário que o provider de virtualização, o Vagrant e o Ansible estejam instalados na máquina real. Para isso siga as instruções de instalação, que pode ser encontrado aqui: [VirtualBox](https://www.virtualbox.org/wiki/Downloads), [Vagrant](https://developer.hashicorp.com/vagrant/downloads), [Ansible](https://docs.ansible.com/ansible/latest/installation_guide/intro_installation.html)
 
 - Os serviços podem ser inicializados a partir do comando abaixo:
 
@@ -115,14 +92,32 @@ $ cd detools
 # Execute o comando abaixo para criar as máquinas virtuais e executar o tutorial
 $ vagrant up
 
-# Nesse momento o Vagrantfile irá criar as máquinas virtuais e executar o playbook ansible para a instalação e configuração dos requisitos necessários para a execução do tutorial. Em seguida, o Docker Compose irá criar os containers e executar o tutorial. Para comunicação entre a máquina real e a máquina virtual Veridis foi provisionado uma interface do tipo Host-Only, desse modo, caso queira verificar o desempenho dos servidores DNS, Proxy e WEB, adicione no arquivo hosts da sua máquina real a configuração abaixo. Após isso, acesse os endereços de teste no navegador e verifique os serviços em funcionamento. Usuário e senha para validação em: http://app02.abranteme.com.br/jornal/ é "abranteme" e "abranteme".
+# Nesse momento o Vagrantfile irá criar as máquinas virtuais e executar o playbook ansible para a instalação e configuração dos requisitos necessários para a execução do tutorial. Em seguida, o Docker Compose irá criar os containers e executar o tutorial. Para comunicação entre a máquina real e a máquina virtual Veridis foi provisionado uma interface do tipo Host-Only, desse modo, caso queira verificar o desempenho dos servidores DNS, Proxy e WEB, adicione no arquivo hosts da sua máquina real a configuração abaixo. 
 
 192.168.57.7	www.abranteme.com.br	www.app01.abranteme.com.br	app01.abranteme.com.br	www.app02.abranteme.com.br  app02.abranteme.com.br
+
+# Após isso, acesse os endereços de teste no navegador e verifique os serviços em funcionamento.
+
+# Para acessar o servidor Veridis, Statusquo e o Client-Host a partir da máquina real, utilize os seguintes comandos:
+$ vagrant ssh veridis
+$ vagrant ssh statusquo
+$ vagrant ssh client
+
+# Para o acesso remoto ao servidor Veridis foi criado um par de chaves de criptografia assimétrica, logo de dentro da VM Client-Host alterne para o usuário suporte e acesse o servidor Veridis com o comando abaixo:
+$ su suporte
+$ passord: 1234
+$ ssh suporte@10.0.128.1
+
+# Do mesmo modo, para testar o serviço SFTP, pode ser utilizado o comando abaixo a partir da VM Client-Host:
+$ su jornalista
+$ password: 1234
+$ sftp jornalista@10.0.128.1
 
 # Atenção: Como em toda execução do Vagrantfile são criados discos rígidos virtuais (necessários para o gerencimaento de disco), caso o vagrantfile seja executado novamente (vagrant up) com as VMs já criadas, é necessário executar o comando abaixo para destruir as máquinas virtuais e os containers criados anteriormente.
 $ vagrant destroy -f
 
 ```
+
 
 <h2>Referências</h2>
 

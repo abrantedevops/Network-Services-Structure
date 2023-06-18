@@ -21,9 +21,6 @@
       copy:
         src: ../network/statusquo/interfaces
         dest: /etc/network/interfaces
-      notify: Restart network
-      tags:
-        - network
 
     - name: Copying the docker-compose.yml file to VM1
       copy:
@@ -31,39 +28,39 @@
         dest: /home/vagrant/
 
     - name: Running docker-compose
-      community.docker.docker_compose:
-        project_src: /home/vagrant
-        files:
-          - docker-compose.yml
+      shell: |
+        sudo docker-compose -f /home/vagrant/docker-compose.yml up -d && sudo rm /home/vagrant/docker-compose.yml
+      args:
+        executable: /bin/bash
 
-    - name: Creating the reports folder
-      command: mkdir reports
+    - name: Restart network
+      command: sudo systemctl restart networking
+  
+    - name: check if reports directory exists
+      stat:
+        path: /home/vagrant/reports
+      register: reports_dir
+
+    - name: create reports directory
+      file:
+        path: /home/vagrant/reports
+        state: directory
+      when: not reports_dir.stat.exists
 
     - name: Get tstatusquo.py from github
-      command: wget https://raw.githubusercontent.com/abrantedevops/Network-Services-Structure/master/test/tstatusquo.py
+      command: wget https://raw.githubusercontent.com/abrantedevops/Network-Services-Structure/dev/test/tstatusquo.py
 
     - name: Running tstatusquo.py and redirecting to reports folder
-      command: sudo python3 /home/vagrant/tstatusquo.py > Log-statusquo.txt && rm tstatusquo.py
+      shell: | 
+        sudo python3 /home/vagrant/tstatusquo.py > Log-statusquo.txt && rm tstatusquo.py
+      args:
+        executable: /bin/bash
 
     - name: Get resource.robot from github
-      command: wget https://raw.githubusercontent.com/abrantedevops/Network-Services-Structure/master/test/resource.robot
+      command: wget https://raw.githubusercontent.com/abrantedevops/Network-Services-Structure/dev/test/resource.robot
 
     - name: Running resource.robot and redirecting to reports folder
-      command: sudo docker run --user root -v /home/vagrant/reports:/opt/robotframework/reports:Z -v /home/vagrant:/opt/robotframework/tests:Z ppodgorsek/robot-framework:latest > Log-virtualhost.txt && sudo cp Log-virtualhost.txt /home/vagrant/reports/ && sudo rm Log-virtualhost.txt && sudo rm resource.robot
-
-
-# wget do raw do test python statusquo
-# executar os arquivos python com redirecionaod > no arquivo .txt 
-# criar /reports
-# executar o comando do robot framework
-
-
-
-
-  handlers:
-    - name: Restart network
-      service:
-        name: networking
-        state: restarted
-      tags:
-        - network
+      shell: |
+        sudo docker run --user root -v /home/vagrant/reports:/opt/robotframework/reports:Z -v /home/vagrant:/opt/robotframework/tests:Z ppodgorsek/robot-framework:latest > Log-virtualhost.txt && sudo cp Log-virtualhost.txt /home/vagrant/reports/ && sudo rm Log-virtualhost.txt && sudo rm resource.robot
+      args: 
+        executable: /bin/bash
