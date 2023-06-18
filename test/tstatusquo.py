@@ -1,11 +1,16 @@
 import subprocess
 import sys
+import time
+
+print("========================================= APACHE =========================================")
+print()
+data = time.strftime("%d/%m/%Y %H:%M:%S")
+print("Log: " + data)
 
 def test_docker_web():
     containers = [
         {"name": "statusquo-apache"},
     ]
-    print("========================================= APACHE =========================================")
     for container in containers:
         print()
         print("Verificando o container do Servidor Web: " + container["name"])
@@ -29,20 +34,8 @@ def test_docker_web():
             print()
             sys.exit(1)
 
-def stop_docker_container():
-    containers = ["statusquo-apache"]
-    for container in containers:
-        subprocess.run(["docker", "stop", container])
-
-def remove_docker_container():
-    containers = ["statusquo-apache"]
-    for container in containers:
-        subprocess.run(["docker", "rm", container])
-
 
 
 test_docker_web()
-stop_docker_container()
-remove_docker_container()
 
 

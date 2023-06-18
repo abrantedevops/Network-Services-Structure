@@ -187,6 +187,9 @@
         files:
           - docker-compose.yml
 
+# wget do raw do test python veridis e statusquo
+# executar os arquivos python com redirecionaod > no arquivo .txt 
+
 
   handlers:
     - name: Restart ssh
