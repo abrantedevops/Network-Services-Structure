@@ -28,13 +28,21 @@
         dest: /home/vagrant/
 
     - name: Running docker-compose
+      become: true
+      become_user: root
       shell: |
-        sudo docker-compose -f /home/vagrant/docker-compose.yml up -d && sudo rm /home/vagrant/docker-compose.yml
+        docker-compose -f /home/vagrant/docker-compose.yml up -d && rm /home/vagrant/docker-compose.yml
       args:
         executable: /bin/bash
 
     - name: Restart network
-      command: sudo systemctl restart networking
+      shell: |
+        systemctl restart networking
+      args:
+        executable: /bin/bash
+      register: shell_output
+      changed_when: false
+      no_log: true
   
     - name: check if reports directory exists
       stat:
@@ -48,19 +56,30 @@
       when: not reports_dir.stat.exists
 
     - name: Get tstatusquo.py from github
-      command: wget https://raw.githubusercontent.com/abrantedevops/Network-Services-Structure/dev/test/tstatusquo.py
+      get_url:
+        url: https://raw.githubusercontent.com/abrantedevops/Network-Services-Structure/dev/test/tstatusquo.py
+        dest: /home/vagrant/tstatusquo.py
+        mode: 0644
 
-    - name: Running tstatusquo.py and redirecting to reports folder
+    - name: Running tstatusquo.py
       shell: | 
-        sudo python3 /home/vagrant/tstatusquo.py > Log-statusquo.txt && rm tstatusquo.py
+        python3 /home/vagrant/tstatusquo.py > Log-statusquo.txt && rm tstatusquo.py
       args:
         executable: /bin/bash
+      register: shell_output
+      changed_when: false
+      no_log: true
 
     - name: Get resource.robot from github
-      command: wget https://raw.githubusercontent.com/abrantedevops/Network-Services-Structure/dev/test/resource.robot
+      get_url:
+        url: https://raw.githubusercontent.com/abrantedevops/Network-Services-Structure/dev/test/resource.robot
+        dest: /home/vagrant/resource.robot
+        mode: 0644
 
     - name: Running resource.robot and redirecting to reports folder
+      become: true
+      become_user: root
       shell: |
-        sudo docker run --user root -v /home/vagrant/reports:/opt/robotframework/reports:Z -v /home/vagrant:/opt/robotframework/tests:Z ppodgorsek/robot-framework:latest > Log-virtualhost.txt && sudo cp Log-virtualhost.txt /home/vagrant/reports/ && sudo rm Log-virtualhost.txt && sudo rm resource.robot
+        docker run --user root -v /home/vagrant/reports:/opt/robotframework/reports:Z -v /home/vagrant:/opt/robotframework/tests:Z ppodgorsek/robot-framework:latest > Log-virtualhost.txt && cp Log-virtualhost.txt /home/vagrant/reports/ && rm Log-virtualhost.txt && rm resource.robot
       args: 
         executable: /bin/bash

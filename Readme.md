@@ -14,6 +14,14 @@
   </a>
 </p>
 
+<p align="center">
+
+<img alt="Repository size" src="https://img.shields.io/github/repo-size/abrantedevops/Network-Services-Structure">
+
+<img  alt="made by" src="https://img.shields.io/badge/made%20by-Abrante%20DevOps-blueviolet">
+
+</p>
+
 
 <p align="center"><img src="./img/bellsoft-s-docker-hub-images-overview.webp" alt="Scope" style="max-width:100%"></p>
 
@@ -77,9 +85,15 @@ Para a criação do pipeline CI/CD foi utilizado o GitHub Actions, que é uma fe
 
 <h2>Pré-requisitos e Indicações</h2>
 
-- Antes de começar, é necessário que o provider de virtualização, o Vagrant e o Ansible estejam instalados na máquina real. Para isso siga as instruções de instalação, que pode ser encontrado aqui: [VirtualBox](https://www.virtualbox.org/wiki/Downloads), [Vagrant](https://developer.hashicorp.com/vagrant/downloads), [Ansible](https://docs.ansible.com/ansible/latest/installation_guide/intro_installation.html)
+- É necessário que o provider de virtualização, o Vagrant e o Ansible estejam instalados na máquina real. Para isso siga as instruções de instalação, que pode ser encontrado aqui: [VirtualBox](https://www.virtualbox.org/wiki/Downloads), [Vagrant](https://developer.hashicorp.com/vagrant/downloads), [Ansible](https://docs.ansible.com/ansible/latest/installation_guide/intro_installation.html)
+
+- Antes de começar, certifique-se de adicionar no arquivo hosts da máquina real a seguinte linha de configuração:
+```bash
+192.168.57.7	www.abranteme.com.br	www.app01.abranteme.com.br	app01.abranteme.com.br	www.app02.abranteme.com.br  app02.abranteme.com.br
+```
 
 - Os serviços podem ser inicializados a partir do comando abaixo:
+
 
 ```bash
 # Clone este repositório
@@ -88,16 +102,15 @@ $ git clone https://github.com/abrantedevops/Network-Services-Structure.git
 # Acesse a pasta no terminal/cmd em que está o arquivo Vagrantfile
 $ cd detools
 
-# Execute o comando abaixo para criar as máquinas virtuais e executar o tutorial
+# Para criar todas as máquinas virtuais e executar o tutorial
 $ vagrant up
 
-# Nesse momento o Vagrantfile irá criar as máquinas virtuais e executar o playbook ansible para a instalação e configuração dos requisitos necessários para a execução do tutorial. Em seguida, o Docker Compose irá criar os containers e executar o tutorial. Para comunicação entre a máquina real e a máquina virtual Veridis foi provisionado uma interface do tipo Host-Only, desse modo, caso queira verificar o desempenho dos servidores DNS, Proxy e WEB, adicione no arquivo hosts da sua máquina real a configuração abaixo. 
+# Caso queira criar apenas uma das máquinas virtuais:
+$ vagrant up veridis
+$ vagrant up statusquo
+$ vagrant up client
 
-192.168.57.7	www.abranteme.com.br	www.app01.abranteme.com.br	app01.abranteme.com.br	www.app02.abranteme.com.br  app02.abranteme.com.br
-
-# Após isso, acesse os endereços de teste no navegador e verifique os serviços em funcionamento.
-
-# Para acessar o servidor Veridis, Statusquo e o Client-Host a partir da máquina real, utilize os seguintes comandos:
+# Para acessar o servidor Veridis, Statusquo ou Client-Host a partir da máquina real, utilize os seguintes comandos:
 $ vagrant ssh veridis
 $ vagrant ssh statusquo
 $ vagrant ssh client
@@ -112,9 +125,8 @@ $ su jornalista
 $ password: 1234
 $ sftp jornalista@10.0.128.1
 
-# Atenção: Como em toda execução do Vagrantfile são criados discos rígidos virtuais (necessários para o gerencimaento de disco), caso o vagrantfile seja executado novamente (vagrant up) com as VMs já criadas, é necessário executar o comando abaixo para destruir as máquinas virtuais e os containers criados anteriormente.
+# Atenção: Como em toda execução do Vagrantfile são criados discos rígidos virtuais (para a parte do gerenciamento de disco) na VM Veridis, caso queira levantar novamente as VMs, é necessário executar o comando abaixo para não dar erro de disco já existente:
 $ vagrant destroy -f
-
 ```
 
 
