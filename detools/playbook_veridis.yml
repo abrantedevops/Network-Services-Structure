@@ -36,10 +36,12 @@
         - /dev/sdc
         - /dev/sdd
 
-    - name: Create RAID arrays
-      command: "sudo mdadm --create /dev/md0 --level=1 --raid-devices=3 /dev/sdb1 /dev/sdc1 /dev/sdd1 --metadata=0.90"
+    - name: Create first RAID arrays
+      command: "mdadm --create /dev/md0 --level=1 --raid-devices=3 /dev/sdb1 /dev/sdc1 /dev/sdd1 --metadata=0.90"
+      become: yes
+      become_method: sudo
 
-      # Optionally, you can wait for the RAID array to be fully synced before proceeding to the next step
+      # Optionally, wait for the RAID array to be fully synced before proceeding to the next step
       async: 0
       poll: 0
 
@@ -48,7 +50,7 @@
       become: yes
       become_method: sudo
 
-      # Optionally, you can wait for the RAID array to be fully synced before proceeding to the next step
+      # Optionally, wait for the RAID array to be fully synced before proceeding to the next step
       async: 0
       poll: 0
 

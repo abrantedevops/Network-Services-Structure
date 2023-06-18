@@ -25,9 +25,14 @@
         src: ../network/client/interfaces
         dest: /etc/network/interfaces
       
-
-    - name: Restart networking.service
-      command: "sudo systemctl restart networking.service"
+    - name: Restart network
+      shell: |
+        systemctl restart networking
+      args:
+        executable: /bin/bash
+      register: shell_output
+      changed_when: false
+      no_log: true
 
       # Create users
     - name: Create users
@@ -53,7 +58,6 @@
       become: true
       become_user: jornalista
 
-#parâmetro autenticatorpassword yes já vem la do servidor para permitir encaminhar a chave===
 
     - name: Copy SSH key suporte to remote server
       expect:

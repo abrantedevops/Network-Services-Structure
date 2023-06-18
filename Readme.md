@@ -105,10 +105,12 @@ $ cd detools
 # Para criar todas as máquinas virtuais e executar o tutorial
 $ vagrant up
 
-# Caso queira criar apenas uma das máquinas virtuais:
-$ vagrant up veridis
-$ vagrant up statusquo
-$ vagrant up client
+# Após a finalização do processo, basta acessar os endereços abaixo com http ou https para testar os serviços:
+www.abranteme.com.br
+app01.abranteme.com.br
+app02.abranteme.com.br
+app02.abranteme.com.br/jornal
+
 
 # Para acessar o servidor Veridis, Statusquo ou Client-Host a partir da máquina real, utilize os seguintes comandos:
 $ vagrant ssh veridis
@@ -125,10 +127,14 @@ $ su jornalista
 $ password: 1234
 $ sftp jornalista@10.0.128.1
 
-# Atenção: Como em toda execução do Vagrantfile são criados discos rígidos virtuais (para a parte do gerenciamento de disco) na VM Veridis, caso queira levantar novamente as VMs, é necessário executar o comando abaixo para não dar erro de disco já existente:
+# Caso queira criar apenas uma das máquinas virtuais:
+$ vagrant up veridis
+$ vagrant up statusquo
+$ vagrant up client
+
+# Atenção: Como em toda execução do Vagrantfile são criados discos rígidos virtuais (destinados ao gerenciamento de disco) na VM Veridis, caso queira levantar novamente as VMs, é necessário executar o comando abaixo para não dar erro de disco já existente:
 $ vagrant destroy -f
 ```
-
 
 <h2>Referências</h2>
 
