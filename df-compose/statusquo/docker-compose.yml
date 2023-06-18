@@ -8,14 +8,7 @@ services:
     container_name: statusquo-apache
     ports:
       - 8000:8000
-
-  robot:
-    image: abrantedevops/network_services_structure:statusquo-robot
-    container_name: statusquo-robot
-    ports:
-      - 8080:8080
     volumes:
-      - ./test/:/opt/robotframework/tests:Z
-    depends_on:
-      - statusquo-apache
+      - ./reports:/dados/www/app02/jornal
+
 

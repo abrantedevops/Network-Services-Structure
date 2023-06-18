@@ -9,7 +9,7 @@ ${USERNAME}       abranteme
 ${PASSWORD}       abranteme
 
 *** Test Cases ***
-Verificação em Andamento
+Recursos em Andamento
     Open Browser    ${URL}    ${BROWSER}
     Input Text      //input[@name='my_username']    ${USERNAME}
     Input Text      //input[@name='my_password']     ${PASSWORD}

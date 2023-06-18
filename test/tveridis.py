@@ -1,5 +1,6 @@
 import subprocess
 import sys
+import time
 
 def test_docker_dns():
     containers = [
@@ -9,7 +10,10 @@ def test_docker_dns():
     print("========================================= BIND9 =========================================")
     for container in containers:
         print()
+        data = time.strftime("%d/%m/%Y %H:%M:%S")
+        print("Log: " + data)
         print("Verificando o container do Servidor DNS: " + container["name"])
+        print()
         status = subprocess.run(["docker", "container", "inspect", container["name"], "--format", "{{.State.Status}}"], capture_output=True, text=True)
         print()
         print("Status: " + status.stdout.strip())
@@ -25,6 +29,7 @@ def test_docker_dns():
             print("\033[91m+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+\033[0m")
             print()
             sys.exit(1)
+            
 
 def test_docker_nginx():
     containerslan = [
@@ -32,6 +37,9 @@ def test_docker_nginx():
     ]
     print("========================================= NGINX =========================================")
     for container in containerslan:
+        print()
+        data = time.strftime("%d/%m/%Y %H:%M:%S")
+        print("Log: " + data)
         print("Verificando o container do Servidor Proxy: " + container["name"])
         print()
         command = ["docker", "exec", container["name"], "/bin/sh", "-c", "service nginx status"]
@@ -57,6 +65,9 @@ def test_docker_nginx():
         {"name": "nginx-wan"},
     ]
     for container in containerswan:
+        print()
+        data = time.strftime("%d/%m/%Y %H:%M:%S")
+        print("Log: " + data)
         print("Verificando o container do Servidor Proxy: " + container["name"])
         print()
         command = ["docker", "exec", container["name"], "/bin/sh", "-c", "service nginx status"]
@@ -78,21 +89,8 @@ def test_docker_nginx():
             print()
             sys.exit(1)
 
-def stop_docker_container():
-    containers = ["veridis-bindm", "veridis-binds", "nginx-lan", "nginx-wan"]
-    for container in containers:
-        subprocess.run(["docker", "stop", container])
-
-def remove_docker_container():
-    containers = ["veridis-bindm", "veridis-binds", "nginx-lan", "nginx-wan"]
-    for container in containers:
-        subprocess.run(["docker", "rm", container])
-
-
 
 test_docker_dns()
 test_docker_nginx()
-stop_docker_container()
-remove_docker_container()
 
 

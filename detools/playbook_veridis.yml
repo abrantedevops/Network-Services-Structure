@@ -145,7 +145,7 @@
         regexp: '^PasswordAuthentication'
         line: 'PasswordAuthentication yes'
       become: true
-      notify: Restart ssh
+    
 
       # task for permit to copy sshd_config from client to server:
     - name: Set Permitroot in sshd_config (will change after in playbook_client)
@@ -154,7 +154,6 @@
         regexp: '^PermitRootLogin'
         line: 'PermitRootLogin yes'
       become: true
-      notify: Restart ssh
 
 
       # config for sftp server
@@ -170,9 +169,6 @@
       copy:
         src: ../network/veridis/interfaces
         dest: /etc/network/interfaces
-      notify: Restart network
-      tags:
-        - network
 
       #Dockerfile services init 
 
@@ -182,24 +178,25 @@
         dest: /home/vagrant/
    
     - name: Running docker-compose
-      community.docker.docker_compose:
-        project_src: /home/vagrant
-        files:
-          - docker-compose.yml
+      shell: |
+        sudo docker-compose -f /home/vagrant/docker-compose.yml up -d && sudo rm /home/vagrant/docker-compose.yml
+      args:
+        executable: /bin/bash
 
+    - name: Restart network and ssh
+      shell: |
+        sudo systemctl restart networking && sudo systemctl restart ssh
+      args:
+        executable: /bin/bash
 
-  handlers:
-    - name: Restart ssh
-      service:
-        name: ssh
-        state: restarted
-    - name: Restart network
-      service:
-        name: networking
-        state: restarted
-      tags:
-        - network
+    - name: Get tveridis.py from Github
+      command: wget https://raw.githubusercontent.com/abrantedevops/Network-Services-Structure/dev/test/tveridis.py
 
+    - name: Running tveridis.py and redirecting to Log-veridis.txt
+      shell: | 
+        sudo python3 tveridis.py > Log-veridis.txt && rm tveridis.py
+      args:
+        executable: /bin/bash
    
 
 

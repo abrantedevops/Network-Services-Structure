@@ -11,13 +11,13 @@ env:
   NGINXL: abrantedevops/network_services_structure:veridis-nginx-lan
   NGINXW: abrantedevops/network_services_structure:veridis-nginx-wan
   APACHE: abrantedevops/network_services_structure:statusquo-apache
-  ROBOT: abrantedevops/network_services_structure:statusquo-robot
+  
   path_master: ./isolated_environment/imagem_for_dockerhub_veridis/bind9
   path_slave: ./isolated_environment/imagem_for_dockerhub_veridis/bind9/slave
   path_nginx_lan: ./isolated_environment/imagem_for_dockerhub_veridis/nginx/lan
   path_nginx_wan: ./isolated_environment/imagem_for_dockerhub_veridis/nginx/wan
   path_apache: ./isolated_environment/imagem_for_dockerhub_statusquo/apache
-  path_robot: ./isolated_environment/imagem_for_dockerhub_statusquo/robot
+
 
 
 jobs:
@@ -34,9 +34,7 @@ jobs:
                 docker build -t ${{ env.NGINXL }} ${{ env.path_nginx_lan }}
                 docker build -t ${{ env.NGINXW }} ${{ env.path_nginx_wan }}
                 docker build -t ${{ env.APACHE }} ${{ env.path_apache }}
-                docker build -t ${{ env.ROBOT }} ${{ env.path_robot }}
-
-        
+               
     Test-Services:
         needs: Build
         runs-on: ubuntu-latest
@@ -48,11 +46,6 @@ jobs:
               run: |
                 docker-compose -f ./df-compose/veridis/docker-compose.yml up -d
                 docker-compose -f ./df-compose/statusquo/docker-compose.yml up -d
-                docker logs statusquo-robot
-
-            - name: Run logs Robot Framework
-              run: |
-                docker logs statusquo-robot
             
             - name: Setup Python Version
               uses: actions/setup-python@v2
@@ -84,7 +77,7 @@ jobs:
                 trivy image ${{ env.NGINXL }}
                 trivy image ${{ env.NGINXW }}
                 trivy image ${{ env.APACHE }}
-                trivy image ${{ env.ROBOT }}
+              
         
     Registry:
         needs: Vulnerabilities
@@ -111,9 +104,6 @@ jobs:
                 docker push ${{ env.NGINXW }}
                 docker build -t ${{ env.APACHE }} ${{ env.path_apache }}
                 docker push ${{ env.APACHE }}
-                docker build -t ${{ env.ROBOT }} ${{ env.path_robot }}
-                docker push ${{ env.ROBOT }}
-                
 
 
 

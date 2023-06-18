@@ -1,6 +1,0 @@
-FROM ppodgorsek/robot-framework:latest
-
-#COPY resource.robot /opt/robotframework/bin/tests:Z
-
-EXPOSE 8080
-
