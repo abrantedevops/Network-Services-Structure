@@ -36,17 +36,21 @@
         - /dev/sdc
         - /dev/sdd
 
-    - name: Create RAID arrays
-      command: "sudo mdadm --create /dev/md0 --level=1 --raid-devices=3 /dev/sdb1 /dev/sdc1 /dev/sdd1 --metadata=0.90"
+    - name: Create first RAID arrays
+      command: "mdadm --create /dev/md0 --level=1 --raid-devices=3 /dev/sdb1 /dev/sdc1 /dev/sdd1 --metadata=0.90"
+      become: yes
+      become_method: sudo
 
-      # Optionally, you can wait for the RAID array to be fully synced before proceeding to the next step
+      # Optionally, wait for the RAID array to be fully synced before proceeding to the next step
       async: 0
       poll: 0
 
     - name: Create second RAID array
-      command: "sudo mdadm --create /dev/md1 --level=1 --raid-devices=3 /dev/sdb2 /dev/sdc2 /dev/sdd2 --metadata=0.90"
+      command: "mdadm --create /dev/md1 --level=1 --raid-devices=3 /dev/sdb2 /dev/sdc2 /dev/sdd2 --metadata=0.90"
+      become: yes
+      become_method: sudo
 
-      # Optionally, you can wait for the RAID array to be fully synced before proceeding to the next step
+      # Optionally, wait for the RAID array to be fully synced before proceeding to the next step
       async: 0
       poll: 0
 
@@ -158,10 +162,17 @@
 
       # config for sftp server
     - name: Change directory owner and group
-      command: chown root:root /dados/jornal
+      file:
+        path: /dados/jornal
+        owner: root
+        group: root
+        state: directory
 
     - name: Set permissions on the directory
-      command: chmod 755 /dados/jornal
+      file:
+        path: /dados/jornal
+        mode: '0755'
+        state: directory
       
 
       # Network Requirement
@@ -178,25 +189,36 @@
         dest: /home/vagrant/
    
     - name: Running docker-compose
+      become: true
+      become_user: root
       shell: |
-        sudo docker-compose -f /home/vagrant/docker-compose.yml up -d && sudo rm /home/vagrant/docker-compose.yml
+        docker-compose -f /home/vagrant/docker-compose.yml up -d && rm /home/vagrant/docker-compose.yml
       args:
         executable: /bin/bash
 
     - name: Restart network and ssh
       shell: |
-        sudo systemctl restart networking && sudo systemctl restart ssh
+        systemctl restart networking && systemctl restart ssh
       args:
         executable: /bin/bash
+      register: shell_output
+      changed_when: false
+      no_log: true
 
     - name: Get tveridis.py from Github
-      command: wget https://raw.githubusercontent.com/abrantedevops/Network-Services-Structure/dev/test/tveridis.py
+      get_url:
+        url: https://raw.githubusercontent.com/abrantedevops/Network-Services-Structure/dev/test/tveridis.py
+        dest: /home/vagrant/tveridis.py
+        mode: 0644
 
     - name: Running tveridis.py and redirecting to Log-veridis.txt
       shell: | 
-        sudo python3 tveridis.py > Log-veridis.txt && rm tveridis.py
+        python3 tveridis.py > Log-veridis.txt && rm tveridis.py
       args:
         executable: /bin/bash
+      register: shell_output
+      changed_when: false
+      no_log: true
    
 
 
