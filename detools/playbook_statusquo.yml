@@ -80,6 +80,6 @@
       become: true
       become_user: root
       shell: |
-        docker run --user root -v /home/vagrant/reports:/opt/robotframework/reports:Z -v /home/vagrant:/opt/robotframework/tests:Z ppodgorsek/robot-framework:latest > Log-virtualhost.txt && cp Log-virtualhost.txt /home/vagrant/reports/ && rm Log-virtualhost.txt && rm resource.robot
+        docker run --user root -v /home/vagrant/reports:/opt/robotframework/reports:Z -v /home/vagrant:/opt/robotframework/tests:Z vanditboy/robot-framework:latest > Log-virtualhost.txt && cp Log-virtualhost.txt /home/vagrant/reports/ && rm Log-virtualhost.txt && rm resource.robot
       args: 
         executable: /bin/bash

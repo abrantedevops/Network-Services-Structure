@@ -78,7 +78,6 @@ jobs:
                 trivy image ${{ env.NGINXW }}
                 trivy image ${{ env.APACHE }}
               
-        
     Registry:
         needs: Vulnerabilities
         runs-on: ubuntu-latest
