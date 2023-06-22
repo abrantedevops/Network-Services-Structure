@@ -4,6 +4,9 @@
 #Parte 1 - Vagrant
 
 Vagrant.configure("2") do |config|
+  config.vm.provision "shell", inline: <<-SHELL
+      echo "IMPORTANTE! Verifique se o arquivo hosts está conforme a documentação do tutorial no GitHub."  
+  SHELL
 
   # Configuração da VM1 (Veridis)
   config.vm.define "veridis" do |veridis|

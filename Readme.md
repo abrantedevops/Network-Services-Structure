@@ -87,6 +87,8 @@ Para a criação do pipeline CI/CD foi utilizado o GitHub Actions, que é uma fe
 
 - É necessário que o provider de virtualização, o Vagrant e o Ansible estejam instalados na máquina real. Para isso siga as instruções de instalação, que pode ser encontrado aqui: [VirtualBox](https://www.virtualbox.org/wiki/Downloads), [Vagrant](https://developer.hashicorp.com/vagrant/downloads), [Ansible](https://docs.ansible.com/ansible/latest/installation_guide/intro_installation.html)
 
+- O ambiente foi provisionado e testado a partir das seguintes versões: VirtualBox 6.1.26, Vagrant 2.3.4 e Ansible 2.12.10.
+
 - Antes de começar, certifique-se de adicionar no arquivo hosts da máquina real a seguinte linha de configuração:
 ```bash
 192.168.57.7	www.abranteme.com.br	www.app01.abranteme.com.br	app01.abranteme.com.br	www.app02.abranteme.com.br  app02.abranteme.com.br
