@@ -114,10 +114,6 @@ jobs:
               with:
                 name: docker-images
 
-            - name: Load Docker images
-              run: |
-                docker load -i ${{ github.workspace }}/docker-images.zip
-
             - name: Push Docker images
               run: |
                 docker push ${{ env.DNSM }}
