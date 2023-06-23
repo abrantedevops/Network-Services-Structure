@@ -27,6 +27,14 @@ jobs:
             - name: Checkout repository
               uses: actions/checkout@v3
 
+            - name: Cache Docker layers
+              uses: actions/cache@v2
+              with:
+                path: /var/lib/docker
+                key: ${{ runner.os }}-docker-${{ hashFiles('**/Dockerfile') }}
+                restore-keys: |
+                  ${{ runner.os }}-docker-
+
             - name: Build Docker images
               run: |
                 docker build -t ${{ env.DNSM }} ${{ env.path_master }}
@@ -42,11 +50,18 @@ jobs:
             - name: Checkout repository
               uses: actions/checkout@v3
 
-            - name: Run Docker Compose for Test
+            - name: Docker Run For Test
               run: |
-                docker-compose -f ./df-compose/veridis/docker-compose.yml up -d
-                docker-compose -f ./df-compose/statusquo/docker-compose.yml up -d
-            
+                docker network create --subnet=192.168.10.0/24 --gateway=192.168.10.1 redelan
+                docker network create --subnet=203.0.113.0/24 --gateway=203.0.113.1 redewan
+                docker run -d --name veridis-bindm --network redelan --ip 192.168.10.3 -p 53:53 ${{ env.DNSM }}
+                docker network connect --ip 203.0.113.3 redewan veridis-bindm
+                docker run -d --name veridis-binds --network redewan --ip 203.0.113.5 ${{ env.DNSL }}
+                docker network connect --ip 192.168.10.5 redelan veridis-binds
+                docker run -d --name nginx-lan --network redelan --ip 192.168.10.2 -p 80:80 ${{ env.NGINXL }}
+                docker run -d --name nginx-wan --network redewan --ip 203.0.113.2 -p 443:443 ${{ env.NGINXW }}
+                docker run -d --name statusquo-apache -p 8000:8000 ${{ env.APACHE }}
+                
             - name: Setup Python Version
               uses: actions/setup-python@v2
               with:
@@ -93,20 +108,11 @@ jobs:
         
             - name: Build and Push
               run: |
-                docker build -t ${{ env.DNSM }} ${{ env.path_master }}
                 docker push ${{ env.DNSM }}
-                docker build -t ${{ env.DNSL }} ${{ env.path_slave }}
-                docker push ${{ env.DNSL }}
-                docker build -t ${{ env.NGINXL }} ${{ env.path_nginx_lan }}
-                docker push ${{ env.NGINXL }}
-                docker build -t ${{ env.NGINXW }} ${{ env.path_nginx_wan }}
-                docker push ${{ env.NGINXW }}
-                docker build -t ${{ env.APACHE }} ${{ env.path_apache }}
+                docker push ${{ env.DNSL }}         
+                docker push ${{ env.NGINXL }}          
+                docker push ${{ env.NGINXW }}          
                 docker push ${{ env.APACHE }}
-
-
-
-
 
                 
                 
