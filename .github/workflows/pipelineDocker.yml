@@ -27,12 +27,6 @@ jobs:
             - name: Checkout repository
               uses: actions/checkout@v3
 
-            - name: Cache Docker layers
-              uses: actions/cache@v2
-              with:
-                path: /root/.cache/docker
-                key: ${{ runner.os }}-docker-${{ hashFiles('**/Dockerfile') }}
-
             - name: Build Docker images
               run: |
                 docker build -t ${{ env.DNSM }} ${{ env.path_master }}
@@ -40,6 +34,17 @@ jobs:
                 docker build -t ${{ env.NGINXL }} ${{ env.path_nginx_lan }}
                 docker build -t ${{ env.NGINXW }} ${{ env.path_nginx_wan }}
                 docker build -t ${{ env.APACHE }} ${{ env.path_apache }}
+
+            - name: artifacts for docker images
+              uses: actions/upload-artifact@v2
+              with:
+                name: docker-images
+                path: |
+                  ${{ env.path_master }}
+                  ${{ env.path_slave }}
+                  ${{ env.path_nginx_lan }}
+                  ${{ env.path_nginx_wan }}
+                  ${{ env.path_apache }}
                
     Test-Services:
         needs: Build
@@ -104,12 +109,22 @@ jobs:
                 username: ${{ secrets.USER }}
                 password: ${{ secrets.PASS }}
         
-            - name: Build and Push
+            - name: Download Docker image artifacts
+              uses: actions/download-artifact@v2
+              with:
+                name: docker-images
+
+            - name: Load and Push Docker images
               run: |
+                docker load -i ${{ github.workspace }}/${{ env.path_master }}/docker-image.tar
                 docker push ${{ env.DNSM }}
-                docker push ${{ env.DNSL }}         
-                docker push ${{ env.NGINXL }}          
-                docker push ${{ env.NGINXW }}          
+                docker load -i ${{ github.workspace }}/${{ env.path_slave }}/docker-image.tar
+                docker push ${{ env.DNSL }}
+                docker load -i ${{ github.workspace }}/${{ env.path_nginx_lan }}/docker-image.tar
+                docker push ${{ env.NGINXL }}
+                docker load -i ${{ github.workspace }}/${{ env.path_nginx_wan }}/docker-image.tar
+                docker push ${{ env.NGINXW }}
+                docker load -i ${{ github.workspace }}/${{ env.path_apache }}/docker-image.tar
                 docker push ${{ env.APACHE }}
 
                 
