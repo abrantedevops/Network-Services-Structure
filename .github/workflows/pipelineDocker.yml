@@ -116,15 +116,15 @@ jobs:
 
             - name: Load and Push Docker images
               run: |
-                docker load -i ${{ github.workspace }}/docker-images.zip
+                docker load -i ${{ github.workspace }}/isolated_environment/docker-images.zip
                 docker push ${{ env.DNSM }}
-                docker load -i ${{ github.workspace }}/docker-images.zip
+                docker load -i ${{ github.workspace }}/isolated_environment/docker-images.zip
                 docker push ${{ env.DNSL }}
-                docker load -i ${{ github.workspace }}/docker-images.zip
+                docker load -i ${{ github.workspace }}/isolated_environment/docker-images.zip
                 docker push ${{ env.NGINXL }}
-                docker load -i ${{ github.workspace }}/docker-images.zip
+                docker load -i ${{ github.workspace }}/isolated_environment/docker-images.zip
                 docker push ${{ env.NGINXW }}
-                docker load -i ${{ github.workspace }}/docker-images.zip
+                docker load -i ${{ github.workspace }}/isolated_environment/docker-images.zip
                 docker push ${{ env.APACHE }}
 
                 
