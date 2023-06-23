@@ -116,8 +116,14 @@ jobs:
 
             - name: Push Docker images
               run: |
-                docker push ${{ env.DNSM }}
-                docker push ${{ env.DNSL }}
-                docker push ${{ env.NGINXL }}
-                docker push ${{ env.NGINXW }}
-                docker push ${{ env.APACHE }}
+                docker push abrantedevops/${{ env.GITHUB_DNSM }}
+                docker push abrantedevops/${{ env.GITHUB_DNSL }}
+                docker push abrantedevops/${{ env.GITHUB_NGINXL }}
+                docker push abrantedevops/${{ env.GITHUB_NGINXW }}
+                docker push abrantedevops/${{ env.GITHUB_APACHE }}
+              env:
+                GITHUB_DNSM: ${{ env.DNSM }}
+                GITHUB_DNSL: ${{ env.DNSL }}
+                GITHUB_NGINXL: ${{ env.NGINXL }}
+                GITHUB_NGINXW: ${{ env.NGINXW }}
+                GITHUB_APACHE: ${{ env.APACHE }}
