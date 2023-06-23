@@ -109,23 +109,17 @@ jobs:
                 username: ${{ secrets.USER }}
                 password: ${{ secrets.PASS }}
         
-            - name: Download Docker image artifacts
-              uses: actions/download-artifact@v2
-              with:
-                name: docker-images
+            
 
-            - name: Load and Push Docker images
+            - name: Push Docker images
               run: |
-                docker load -i ${{ github.workspace }}/${{ env.path_master }}/docker-images.tar
-                docker push ${{ env.DNSM }}
-                docker load -i ${{ env.path_slave }}/docker-images.tar
-                docker push ${{ env.DNSL }}
-                docker load -i ${{ github.workspace }}/${{ env.path_nginx_lan }}/docker-images.tar
-                docker push ${{ env.NGINXL }}
-                docker load -i ${{ github.workspace }}/${{ env.path_nginx_wan }}/docker-images.tar
-                docker push ${{ env.NGINXW }}
-                docker load -i ${{ github.workspace }}/${{ env.path_apache }}/docker-images.tar
-                docker push ${{ env.APACHE }}
+                docker push abrantedevops/${{ env.DNSM }}
+                docker push abrantedevops/${{ env.DNSL }}
+                docker push abrantedevops/${{ env.NGINXL }}
+                docker push abrantedevops/${{ env.NGINXW }}
+                docker push abrantedevops/${{ env.APACHE }}
 
+
+        
                 
                 
