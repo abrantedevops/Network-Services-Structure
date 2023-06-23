@@ -30,10 +30,8 @@ jobs:
             - name: Cache Docker layers
               uses: actions/cache@v2
               with:
-                path: /var/lib/docker
+                path: /root/.docker
                 key: ${{ runner.os }}-docker-${{ hashFiles('**/Dockerfile') }}
-                restore-keys: |
-                  ${{ runner.os }}-docker-
 
             - name: Build Docker images
               run: |
@@ -54,7 +52,7 @@ jobs:
               run: |
                 docker network create --subnet=192.168.10.0/24 --gateway=192.168.10.1 redelan
                 docker network create --subnet=203.0.113.0/24 --gateway=203.0.113.1 redewan
-                docker run -d --name veridis-bindm --network redelan --ip 192.168.10.3 -p 53:53 ${{ env.DNSM }}
+                docker run -d --name veridis-bindm --network redelan --ip 192.168.10.3 ${{ env.DNSM }}
                 docker network connect --ip 203.0.113.3 redewan veridis-bindm
                 docker run -d --name veridis-binds --network redewan --ip 203.0.113.5 ${{ env.DNSL }}
                 docker network connect --ip 192.168.10.5 redelan veridis-binds
