@@ -89,7 +89,7 @@ Para a criação do pipeline CI/CD foi utilizado o GitHub Actions, que é uma fe
 
 - O ambiente foi provisionado e testado a partir das seguintes versões: Sistema operacional Ubuntu 20.04.6 LTS (Focal Fossa), VirtualBox 6.1.26, Vagrant 2.3.4 e Ansible 2.12.10.
 
-- <strong style="color:red;">Importante:</strong> Caso opte por usar outra distribuição Linux, esteja seguro que conhece bem o gerenciador de pacotes, sistema de arquivos e comandos que sejam necessários para resolver eventuais imprevistos que possam ocorrer na sua opção GNU/Linux, você será responsável pelo troubleshooting da distribuição que escolher. Se você não está totalmente seguro, sinta-se a vontade para baixar e utilizar a VM já configurada e testadas a partir deste link: 
+<!-- - <strong style="color:red;">Importante:</strong> Caso opte por usar outra distribuição Linux, esteja seguro que conhece bem o gerenciador de pacotes, sistema de arquivos e comandos que sejam necessários para resolver eventuais imprevistos que possam ocorrer na sua opção GNU/Linux, você será responsável pelo troubleshooting da distribuição que escolher. Se você não está totalmente seguro, sinta-se a vontade para baixar e utilizar a VM já configurada e testadas a partir deste link:  -->
 
 <h2>Pré-requisitos e Indicações</h2>
 
