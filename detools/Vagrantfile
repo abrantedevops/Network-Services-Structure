@@ -52,9 +52,10 @@ Vagrant.configure("2") do |config|
     statusquo.vm.network "private_network", virtualbox__intnet: "intnet", auto_config: false
     statusquo.vm.hostname = "Server-Statusquo"
     statusquo.vm.provider "virtualbox" do |vb|
-      vb.memory = "1024"
+      vb.memory = "512"
       vb.name = "Server-Statusquo"
       vb.gui = false
+      vb.cpus = 1
     end
 
     # Configuração de provisionamento com Ansible
@@ -71,9 +72,10 @@ Vagrant.configure("2") do |config|
     client.vm.network "private_network", virtualbox__intnet: "intnet", auto_config: false #interface for wan
     client.vm.hostname = "Client-Host"
     client.vm.provider "virtualbox" do |vb|
-      vb.memory = "1024"
+      vb.memory = "512"
       vb.name = "Client-Host"
       vb.gui = false
+      vb.cpus = 1
     end
 
     # Configuração de provisionamento com Ansible
@@ -83,5 +85,3 @@ Vagrant.configure("2") do |config|
   end
 
 end
-
-  

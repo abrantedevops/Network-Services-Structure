@@ -9,8 +9,8 @@ ${USERNAME}       abranteme
 ${PASSWORD}       abranteme
 
 *** Test Cases ***
-Verificação em Andamento
-    Open Browser    ${URL}    ${BROWSER}
+Recursos em Andamento
+    Open Browser    ${URL}    ${BROWSER}   headlessbrowser=True
     Input Text      //input[@name='my_username']    ${USERNAME}
     Input Text      //input[@name='my_password']     ${PASSWORD}
     Click Button    //input[@name='my_login']

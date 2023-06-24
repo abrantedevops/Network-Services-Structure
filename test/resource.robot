@@ -2,15 +2,17 @@
 Documentation     Teste de Login em app02.abranteme.com.br/jornal
 Library           SeleniumLibrary
 
+
 *** Variables ***
 ${BROWSER}        Chrome
 ${URL}            http://app02.abranteme.com.br/jornal
 ${USERNAME}       abranteme
 ${PASSWORD}       abranteme
 
+
 *** Test Cases ***
-Recursos em Andamento
-    Open Browser    ${URL}    ${BROWSER}
+Recursos em Andamento 
+    Open Browser    ${URL}    ${BROWSER}    headlessbrowser=True
     Input Text      //input[@name='my_username']    ${USERNAME}
     Input Text      //input[@name='my_password']     ${PASSWORD}
     Click Button    //input[@name='my_login']

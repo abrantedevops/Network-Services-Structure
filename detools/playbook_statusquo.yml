@@ -22,7 +22,7 @@
         src: ../network/statusquo/interfaces
         dest: /etc/network/interfaces
 
-    - name: Copying the docker-compose.yml file to VM1
+    - name: Copy the docker-compose.yml file to VM1
       copy:
         src: "../df-compose/statusquo/docker-compose.yml"
         dest: /home/vagrant/
@@ -44,12 +44,12 @@
       changed_when: false
       no_log: true
   
-    - name: check if reports directory exists
+    - name: Check if reports directory exists
       stat:
         path: /home/vagrant/reports
       register: reports_dir
 
-    - name: create reports directory
+    - name: Create reports directory
       file:
         path: /home/vagrant/reports
         state: directory
@@ -76,10 +76,26 @@
         dest: /home/vagrant/resource.robot
         mode: 0644
 
-    - name: Running resource.robot and redirecting to reports folder
+    - name: Pull image for robot framework test
       become: true
       become_user: root
       shell: |
-        docker run --user root -v /home/vagrant/reports:/opt/robotframework/reports:Z -v /home/vagrant:/opt/robotframework/tests:Z vanditboy/robot-framework:latest > Log-virtualhost.txt && cp Log-virtualhost.txt /home/vagrant/reports/ && rm Log-virtualhost.txt && rm resource.robot
+        docker pull vanditboy/robot-framework:latest
+      args:
+        executable: /bin/bash
+
+    - name: Running resource.robot
+      become: true
+      become_user: root
+      shell: |
+        docker run --user root -v /home/vagrant/reports:/opt/robotframework/reports:Z -v /home/vagrant:/opt/robotframework/tests:Z vanditboy/robot-framework:latest > Log-virtualhost.txt
       args: 
+        executable: /bin/bash
+
+    - name: Redirecting results to reports folder
+      become: true
+      become_user: root
+      shell: |
+        cp Log-virtualhost.txt /home/vagrant/reports && rm Log-virtualhost.txt && rm resource.robot
+      args:
         executable: /bin/bash
