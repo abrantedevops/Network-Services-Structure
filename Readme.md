@@ -83,11 +83,15 @@ Para a criação do pipeline CI/CD foi utilizado o GitHub Actions, que é uma fe
 
 <!-- A implantação contínua (Watch Tower) das imagens Docker é realizada no servidor Server-Veridis, que foi configurado com o Docker e o Docker Compose. Para isso, é necessário configurar as variáveis de ambiente SSH_HOST, SSH_USERNAME e SSH_PASSWORD no GitHub, que são utilizadas para fazer o login no servidor e executar os comandos de implantação. -->
 
-<h2>Pré-requisitos e Indicações</h2>
+<h2>Ambiente do Tutorial</h2>
 
 - É necessário que o provider de virtualização, o Vagrant e o Ansible estejam instalados na máquina real. Para isso siga as instruções de instalação, que pode ser encontrado aqui: [VirtualBox](https://www.virtualbox.org/wiki/Downloads), [Vagrant](https://developer.hashicorp.com/vagrant/downloads), [Ansible](https://docs.ansible.com/ansible/latest/installation_guide/intro_installation.html)
 
-- O ambiente foi provisionado e testado a partir das seguintes versões: VirtualBox 6.1.26, Vagrant 2.3.4 e Ansible 2.12.10.
+- O ambiente foi provisionado e testado a partir das seguintes versões: Sistema operacional Ubuntu 20.04.6 LTS (Focal Fossa), VirtualBox 6.1.26, Vagrant 2.3.4 e Ansible 2.12.10.
+
+- <strong style="color:red;">Importante:</strong> Caso opte por usar outra distribuição Linux, esteja seguro que conhece bem o gerenciador de pacotes, sistema de arquivos e comandos que sejam necessários para resolver eventuais imprevistos que possam ocorrer na sua opção GNU/Linux, você será responsável pelo troubleshooting da distribuição que escolher. Se você não está totalmente seguro, sinta-se a vontade para baixar e utilizar a VM já configurada e testadas a partir deste link: 
+
+<h2>Pré-requisitos e Indicações</h2>
 
 - Antes de começar, certifique-se de adicionar no arquivo hosts da máquina real a seguinte linha de configuração:
 ```bash

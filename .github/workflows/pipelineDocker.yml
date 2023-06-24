@@ -34,17 +34,6 @@ jobs:
                 docker build -t ${{ env.NGINXL }} ${{ env.path_nginx_lan }}
                 docker build -t ${{ env.NGINXW }} ${{ env.path_nginx_wan }}
                 docker build -t ${{ env.APACHE }} ${{ env.path_apache }}
-
-            - name: Artifacts for docker images
-              uses: actions/upload-artifact@v2
-              with:
-                name: docker-images
-                path: |
-                  ${{ env.path_master }}
-                  ${{ env.path_slave }}
-                  ${{ env.path_nginx_lan }}
-                  ${{ env.path_nginx_wan }}
-                  ${{ env.path_apache }}
                
     Test-Services:
         needs: Build
@@ -109,15 +98,15 @@ jobs:
                 username: ${{ secrets.USER }}
                 password: ${{ secrets.PASS }}
         
-            - name: Download Docker image artifacts
-              uses: actions/download-artifact@v2
-              with:
-                name: docker-images
-
             - name: Push Docker images
               run: |
+                docker build -t ${{ env.DNSM }} ${{ env.path_master }}
                 docker push ${{ env.DNSM }}
+                docker build -t ${{ env.DNSL }} ${{ env.path_slave }}
                 docker push ${{ env.DNSL }}
+                docker build -t ${{ env.NGINXL }} ${{ env.path_nginx_lan }}
                 docker push ${{ env.NGINXL }}
+                docker build -t ${{ env.NGINXW }} ${{ env.path_nginx_wan }}
                 docker push ${{ env.NGINXW }}
+                docker build -t ${{ env.APACHE }} ${{ env.path_apache }}
                 docker push ${{ env.APACHE }}
