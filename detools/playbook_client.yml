@@ -4,6 +4,7 @@
   become: yes
   vars:
     suporte_public_key_path: /home/suporte/.ssh/id_rsa.pub
+    ansible_timeout: 60
   tasks:
     - name: Changing the name of Linux
       hostname:
@@ -100,12 +101,3 @@
       file:
         path: /tmp/sshd_config
         state: absent
-
-
-
- 
-
-   
-
-
-    

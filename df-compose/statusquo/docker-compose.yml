@@ -6,6 +6,7 @@ services:
   statusquo-apache:
     image: abrantedevops/network_services_structure:statusquo-apache
     container_name: statusquo-apache
+    hostname: www.abranteme.com.br
     ports:
       - 8000:8000
     volumes:
