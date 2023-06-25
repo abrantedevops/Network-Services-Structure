@@ -1,15 +1,15 @@
 <h1>Mãos à obra: Provisionando sistemas e serviços com Vagrant, Ansible e Docker</h1>
 
 <p align="center" style="display: flex; justify-content: center;">
-  <a href="https://www.vagrantup.com/downloads" style="margin-right: 0.5rem;">
+  <a href="https://www.vagrantup.com/downloads" target="_blank" style="margin-right: 0.5rem;">
     <img src="https://camo.githubusercontent.com/46e74e9e66acfaa2ee2b0a609518a7787bcad7cad8fd6fb93d260ae1b6d67ba8/68747470733a2f2f696d672e736869656c64732e696f2f62616467652f56616772616e742d3138363846323f7374796c653d666f722d7468652d6261646765266c6f676f3d56616772616e74266c6f676f436f6c6f723d7768697465" alt="Vagrant version" style="max-width:100%;">
   </a>
 
-  <a href="https://www.ansible.com/" style="margin-right: 0.5rem;">
+  <a href="https://www.ansible.com/" target="_blank" style="margin-right: 0.5rem;">
     <img src="https://camo.githubusercontent.com/e3a57611b4da340881875f8a432a35d5530ac1d36916f9242dfe7029acca54e7/68747470733a2f2f696d672e736869656c64732e696f2f62616467652f416e7369626c652d3030303030303f7374796c653d666f722d7468652d6261646765266c6f676f3d616e7369626c65266c6f676f436f6c6f723d7768697465" alt="Ansible version" style="max-width:100%;">
   </a>
 
-  <a href="https://www.docker.com/" style="margin-right: 0.5rem;">
+  <a href="https://www.docker.com/" target="_blank" style="margin-right: 0.5rem;">
     <img src="https://camo.githubusercontent.com/63350538fde994bc287ccd4908809301e157980e6564bf78d2c5cec22c0a5914/68747470733a2f2f696d672e736869656c64732e696f2f62616467652f446f636b65722d3243413545303f7374796c653d666f722d7468652d6261646765266c6f676f3d646f636b6572266c6f676f436f6c6f723d7768697465" alt="Docker version" style="max-width:100%;">
   </a>
 </p>
@@ -85,11 +85,13 @@ Para a criação do pipeline CI/CD foi utilizado o GitHub Actions, que é uma fe
 
 <h2>Ambiente do Tutorial</h2>
 
-- É necessário que o provider de virtualização, o Vagrant e o Ansible estejam instalados na máquina real. Para isso siga as instruções de instalação, que pode ser encontrado aqui: [VirtualBox](https://www.virtualbox.org/wiki/Downloads), [Vagrant](https://developer.hashicorp.com/vagrant/downloads), [Ansible](https://docs.ansible.com/ansible/latest/installation_guide/intro_installation.html)
+- É necessário que o provider de virtualização, o Vagrant e o Ansible estejam instalados na máquina real. Para isso siga as instruções de instalação, que pode ser encontrado aqui: <a href="https://www.virtualbox.org/wiki/Downloads" target="_blank">VirtualBox</a>,
+<a href="https://developer.hashicorp.com/vagrant/downloads" target="_blank">Vagrant</a>,
+<a href="https://docs.ansible.com/ansible/latest/installation_guide/intro_installation.html" target="_blank">Ansible</a>
 
 - O ambiente foi provisionado e testado a partir das seguintes versões: Sistema operacional Ubuntu 20.04.6 LTS (Focal Fossa), VirtualBox 6.1.26, Vagrant 2.3.4 e Ansible 2.12.10.
 
-- <strong style="color:red;">Importante:</strong> Caso opte por usar outra distribuição Linux, esteja seguro que conhece bem o gerenciador de pacotes, sistema de arquivos e comandos que sejam necessários para resolver eventuais imprevistos que possam ocorrer na sua opção GNU/Linux, você será responsável pelo troubleshooting da distribuição que escolher. Se você não está totalmente seguro, sinta-se a vontade para baixar e utilizar a VM já configurada e testadas acessando aqui: [VM DevOps](https://archive.org/details/ubuntu-nss)
+- <strong style="color:red;">Importante:</strong> Caso opte por usar outra distribuição Linux, esteja seguro que conhece bem o gerenciador de pacotes, sistema de arquivos e comandos que sejam necessários para resolver eventuais imprevistos que possam ocorrer na sua opção GNU/Linux, você será responsável pelo troubleshooting da distribuição que escolher. Se você não está totalmente seguro, sinta-se a vontade para baixar e utilizar a VM já configurada e testadas acessando aqui: <a href="https://archive.org/details/ubuntu-nss" target="_blank">VM DevOps</a>
 
 <h2>Pré-requisitos e Indicações</h2>
 
@@ -144,18 +146,19 @@ $ vagrant destroy -f
 
 <h2>Referências</h2>
 
-- [Vagrant](https://www.vagrantup.com/)
-- [Ansible](https://www.ansible.com/)
-- [Docker](https://www.docker.com/)
-- [Docker Compose](https://docs.docker.com/compose/)
-- [Docker Hub Repository](https://hub.docker.com/r/abrantedevops/network_services_structure)
-- [Nginx](https://www.nginx.com/)
-- [Apache](https://httpd.apache.org/)
-- [Bind9](https://www.isc.org/bind/)
-- [Images Overview](https://bell-sw.com/blog/bellsoft-s-docker-hub-images-overview/)
-- [Trivy](https://trivy.dev/)
-- [GitHub Actions](https://github.com/features/actions)
-- [Robot Framework](https://robotframework.org/)
+- <a href="https://www.virtualbox.org/" target="_blank">VirtualBox</a>
+- <a href="https://www.vagrantup.com/" target="_blank">Vagrant</a>
+- <a href="https://www.ansible.com/" target="_blank">Ansible</a>
+- <a href="https://www.docker.com/" target="_blank">Docker</a>
+- <a href="https://docs.docker.com/compose/" target="_blank">Docker Compose</a>
+- <a href="https://hub.docker.com/r/abrantedevops/network_services_structure" target="_blank">Repositório Docker Hub</a>
+- <a href="https://www.nginx.com/" target="_blank">Nginx</a>
+- <a href="https://httpd.apache.org/" target="_blank">Apache</a>
+- <a href="https://www.isc.org/bind/" target="_blank">Bind9</a>
+- <a href="https://bell-sw.com/blog/bellsoft-s-docker-hub-images-overview/" target="_blank">Visão Geral das Imagens</a>
+- <a href="https://trivy.dev/" target="_blank">Trivy</a>
+- <a href="https://github.com/features/actions" target="_blank">GitHub Actions</a>
+- <a href="https://robotframework.org/" target="_blank">Robot Framework</a>
 
 
 <h2>Licença</h2>
