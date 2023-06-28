@@ -41,6 +41,14 @@ services:
     ports:
       - 443:443
 
+  watchtower:
+    image: containrrr/watchtower
+    container_name: watchtower
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    environment:
+      - WATCHTOWER_POLL_INTERVAL=3600
+
 networks:
   redelan:
     driver: bridge
