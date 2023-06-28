@@ -19,7 +19,7 @@ RUN openssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout /etc/nginx/certi
 RUN mkdir -p /var/www/error
 
 # Copy the 50x error files
-COPY Network-Services-Structure/isolated_environment/imagem_for_dockerhub_veridis/nginx/lan/pgs_error/custom_50x.html /var/www/error/
+COPY pgs_error/custom_50x.html /var/www/error/
 
 # Expose the necessary ports
 EXPOSE 443
