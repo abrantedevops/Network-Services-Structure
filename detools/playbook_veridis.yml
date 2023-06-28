@@ -93,10 +93,6 @@
           /dev/vg-dados/jornal  /dados/jornal  ext4  defaults  0  0
       become: true
 
-    - name: Mount filesystems
-      command: "mount -a"
-      become: true
-
 
       # System access security
 

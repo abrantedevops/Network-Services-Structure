@@ -22,7 +22,7 @@
         src: ../network/statusquo/interfaces
         dest: /etc/network/interfaces
 
-    - name: Copy the docker-compose.yml file to VM1
+    - name: Copy the docker-compose.yml file to VM2
       copy:
         src: "../df-compose/statusquo/docker-compose.yml"
         dest: /home/vagrant/

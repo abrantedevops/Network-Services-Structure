@@ -16,6 +16,8 @@ RUN mkdir -p /etc/apache2/senhas/app02
 
 # Copy files
 COPY app01/index.html /dados/www/app01/
+COPY 404.html /dados/www/app01/
+COPY 404.html /dados/www/app02/
 COPY app02/index.html /dados/www/app02/
 COPY app02/jornal/hi.txt /dados/www/app02/jornal/
 COPY app02/jornal/login.html /dados/www/app02/
