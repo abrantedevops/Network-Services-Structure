@@ -1,7 +1,7 @@
 FROM debian:latest
 
 # Install BIND9 and supervisor 
-RUN apt-get update && apt-get install -y bind9 iputils-ping dnsutils nano
+RUN apt-get update && apt-get install -y apt-utils bind9 iputils-ping dnsutils nano
 
 # Copy the configuration bind9 files
 COPY named.conf.local /etc/bind/
