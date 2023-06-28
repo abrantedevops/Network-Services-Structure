@@ -9,6 +9,12 @@ COPY default /etc/nginx/sites-available/
 # Define the correct permissions nginx
 RUN chown root:root /etc/nginx/sites-available/default
 
+# Create error50x directory in /var/www/
+RUN mkdir -p /var/www/error
+
+# Copy the 50x error files
+COPY pgs_error/custom_50x.html /var/www/error/
+
 # Expose the necessary ports
 EXPOSE 80
 
