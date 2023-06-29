@@ -76,12 +76,12 @@ Para a criação do pipeline CI/CD foi utilizado o GitHub Actions, que é uma fe
 - Push: Após a conclusão das etapas anteriores, as imagens são encaminhadas ao registry Dockerhub para que possam ser baixadas e utilizadas no tutorial.
 
 
+<h3>Deployment</h3>
+
+Após o push das imagens para o registry, é necessário de um processo para automatizar as atualizações dos containers que estão em execução nas VMs. Para isso, foi utilizado o serviço Watch Tower, que irá baixar a nova imagem, remover o container antigo e iniciar um novo container com as mesmas opções que foram usadas inicialmente. O Watch Tower é executado a partir dos arquivos docker-compose, que estão configurados para monitorar em um intervalo de 5 minutos, caso seja identificado uma nova versão o Watch Tower irá baixar a nova imagem e reiniciar o container. Com isso, finalizamos o pipeline de CI/CD com integração, entrega e deploy contínuo. A imagem abaixo ilustra todo esse processo.
+
 <p align="center"><img src="./img/pipelinections.png" alt="Scope" style="max-width:100%"></p>
 
-
-<!-- <h2>Deployment</h2> -->
-
-<!-- A implantação contínua (Watch Tower) das imagens Docker é realizada no servidor Server-Veridis, que foi configurado com o Docker e o Docker Compose. Para isso, é necessário configurar as variáveis de ambiente SSH_HOST, SSH_USERNAME e SSH_PASSWORD no GitHub, que são utilizadas para fazer o login no servidor e executar os comandos de implantação. -->
 
 <h2>Ambiente do Tutorial</h2>
 
@@ -159,6 +159,7 @@ $ vagrant destroy -f
 - <a href="https://trivy.dev/" target="_blank">Trivy</a>
 - <a href="https://github.com/features/actions" target="_blank">GitHub Actions</a>
 - <a href="https://robotframework.org/" target="_blank">Robot Framework</a>
+- <a href="https://containrrr.dev/watchtower/" target="_blank">Watchtower</a>
 
 
 <h2>Licença</h2>
