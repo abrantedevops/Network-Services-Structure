@@ -35,7 +35,7 @@ A base deste tutorial consiste basicamente no provisionamento de servidores Linu
 
 
 Comentando com mais detalhes, temos: 
-- Instalação e configuração realizadas no Virtual Box, utilização do sistema Debian versão mais recente (11 bullseye64), Adição de 3 HDs de 10GB para o gerenciamento de disco no Server-Veridis, adição de 2 interfaces de rede para o Server-Veridis e para o Server-Statusquo.
+- Instalação e configuração realizadas no Virtual Box, utilização do sistema Debian versão 11 bullseye64, adição de 3 HDs de 10GB para o gerenciamento de disco no Server-Veridis, adição de 2 interfaces de rede para o Server-Veridis e Server-Statusquo.
 
 - O gerenciamento de disco compreendeu o uso de 3 discos para redundância completa dos dados, onde no Server-Veridis foram criadas as seguintes partições:
 /dados/www (Tipo ext4, 2 Gbits)
