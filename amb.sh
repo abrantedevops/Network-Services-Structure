@@ -6,7 +6,7 @@ instalar_virtualbox() {
     escolha=$(echo $escolha | tr '[:upper:]' '[:lower:]')
     if [ "$escolha" = "s" ] || [ "$escolha" = "sim" ] || [ "$escolha" = "y" ] || [ "$escolha" = "yes" ]; then
       echo "Instalando o VirtualBox..."
-      sudo apt update
+      sudo apt update -y
       sudo apt install -y virtualbox virtualbox-ext-pack
       echo "VirtualBox instalado com sucesso!"
       break
@@ -25,7 +25,7 @@ instalar_vagrant() {
     escolha=$(echo $escolha | tr '[:upper:]' '[:lower:]')
     if [ "$escolha" = "s" ] || [ "$escolha" = "sim" ] || [ "$escolha" = "y" ] || [ "$escolha" = "yes" ]; then
       echo "Instalando o Vagrant..."
-      sudo apt update
+      sudo apt update -y
       sudo apt install -y vagrant
       echo "Vagrant instalado com sucesso!"
       break
@@ -44,8 +44,10 @@ instalar_ansible() {
     escolha=$(echo $escolha | tr '[:upper:]' '[:lower:]')
     if [ "$escolha" = "s" ] || [ "$escolha" = "sim" ] || [ "$escolha" = "y" ] || [ "$escolha" = "yes" ]; then
       echo "Instalando o Ansible..."
-      sudo apt update
-      sudo apt install -y ansible
+      sudo apt update -y
+      sudo apt install -y ansible 
+      sudo pip install --upgrande pip
+      sudo pip install --upgrade ansible
       echo "Ansible instalado com sucesso!"
       break
     elif [ "$escolha" = "n" ] || [ "$escolha" = "não" ] || [ "$escolha" = "no" ] || [ "$escolha" = "nao" ]; then
