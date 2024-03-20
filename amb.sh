@@ -46,7 +46,7 @@ instalar_ansible() {
       echo "Instalando o Ansible..."
       sudo apt update -y
       sudo apt install -y ansible 
-      sudo pip install --upgrande pip
+      sudo pip install --upgrade pip
       sudo pip install --upgrade ansible
       echo "Ansible instalado com sucesso!"
       break
